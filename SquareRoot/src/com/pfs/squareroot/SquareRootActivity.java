@@ -22,6 +22,7 @@ public class SquareRootActivity extends Activity {
 		ViewGroup vg = (ViewGroup) findViewById(android.R.id.content);
 		srglsv = new SqRtGLSurfaceView(this);
 		vg.addView(srglsv);
+		Controls.activitySetup(this);
 	}
 	
     @Override

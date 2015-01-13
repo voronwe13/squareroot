@@ -22,7 +22,7 @@ public class Controls {
 	public static float xpos1, ypos1, xpos2, ypos2, xstart, ystart, xrelease, yrelease;
 	private static int screenwidth, screenheight, moveboundl, moveboundr, moveboundt, moveboundb;
 	private static int pointerid1, pointerid2;
-	private static float movex, movey, maxy;
+	private static float movex, movey, maxx, maxy, maxz;
 	private static float rotation, oldangle;
 	private static float zoom;
 	public static boolean touchstart1, touchstart2, touching, released, controllingcam, 
@@ -34,14 +34,13 @@ public class Controls {
 	private static ScaleListener scalelistener;
 	private static Level level;
 	private static Context context;
-	private static float maxx;
 	
 	private static class ScaleListener extends ScaleGestureDetector.
 	SimpleOnScaleGestureListener {
 		@Override
 		public boolean onScale(ScaleGestureDetector detector) {
 		   zoom = detector.getCurrentSpan()-detector.getPreviousSpan();
-		   //System.out.println("ScaleListener onScale called.");
+		   //Log.d(TAG,"ScaleListener onScale called.");
 		   return true;
 		}
    }
@@ -58,8 +57,8 @@ public class Controls {
 		//Log.d(TAG, "update called");
 		int pointerindex = me.getActionIndex();
 		int action = me.getAction() & MotionEvent.ACTION_MASK;
-//		if(SGD!=null)
-//			SGD.onTouchEvent(me);
+		if(SGD!=null)
+			SGD.onTouchEvent(me);
 		if (action == MotionEvent.ACTION_DOWN) {
 			pointerid1 = me.getPointerId(pointerindex);
 			xpos1 = me.getX();
@@ -232,7 +231,7 @@ public class Controls {
 			//Log.d("Controls", "zoom: "+zoom);
 			zoom = zoom>0?10:-10;
 		}
-		camera.moveCamera(Camera.CAMERA_MOVEIN, zoom/2);
+		camera.moveCamera(Camera.CAMERA_MOVEIN, zoom/8);
 		camera.getPosition(campos);
 		fixCamera();
 		zoom = 0;
@@ -244,6 +243,10 @@ public class Controls {
 			campos.y = maxy;
 		if(campos.x > maxx)
 			campos.x = maxx;
+		if(campos.z < -maxz)
+			campos.z = -maxz;
+		if(campos.z > -3)
+			campos.z = -3;
 		if(campos.y < 0)
 			campos.y = 0;
 		if(campos.x < 0)
@@ -251,6 +254,10 @@ public class Controls {
 		camera.setPosition(campos);	
 	}
 
+	public static void activitySetup(Context context){
+		scalelistener = new ScaleListener();
+		SGD = new ScaleGestureDetector(context, scalelistener);
+	}
 	
 	/**
 	 * Since this is a static class, setup is for initializing variables before using the class.
@@ -258,13 +265,11 @@ public class Controls {
 	 * @param context	the activity
 	 * @param cam		the camera from the world.
 	 */
-	public static void setup(Context context, Camera cam){
+	public static void setup(Camera cam){
 		camera = cam;
 		campos = camera.getPosition();
 		camera.moveCamera(Camera.CAMERA_MOVEOUT, 5);
 		Controls.context = context;
-		scalelistener = new ScaleListener();
-		SGD = new ScaleGestureDetector(context, scalelistener);
 		controllingcam = false;
 		lookat = new SimpleVector();
 		center = new SimpleVector();
@@ -293,7 +298,6 @@ public class Controls {
 	public static void setupLevel(Level currentlevel, int width, int height) {
 		//Call on start or if screen dimensions change.
 		
-
 		level = currentlevel;
 		screenwidth = width;
 		screenheight = height;
@@ -306,6 +310,7 @@ public class Controls {
 		touching = released = false;
 		maxy = level.height+1;
 		maxx = level.width+1;
+		maxz = maxx+maxy;
 		//camera.moveCamera(Camera.CAMERA_MOVEIN, width/2);
 		//cam.moveCamera(Camera.CAMERA_MOVERIGHT, 20);
 		//camera.moveCamera(Camera.CAMERA_MOVEUP, level.maxheight + 10);

@@ -60,7 +60,7 @@ public class SqRtRenderer implements GLSurfaceView.Renderer {
 			world.setClippingPlanes(1, 5000);
 			setupTextures();
 			Camera cam = world.getCamera();
-			Controls.setup(context, cam);
+			Controls.setup(cam);
 			Game.setup(world);
 			Controls.setupLevel(Game.level, w, h);
 			SquareRootActivity.activity.world = world;
