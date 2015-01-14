@@ -21,7 +21,7 @@ public class SquareRootActivity extends Activity {
 		setContentView(R.layout.activity_square_root);
 		ViewGroup vg = (ViewGroup) findViewById(android.R.id.content);
 		srglsv = new SqRtGLSurfaceView(this);
-		vg.addView(srglsv);
+		vg.addView(srglsv,0);
 		Controls.activitySetup(this);
 	}
 	
@@ -53,5 +53,9 @@ public class SquareRootActivity extends Activity {
         if (srglsv != null) {
             srglsv.onResume();
         }     
+    }
+    
+    public void reset(View v){
+    	Game.reset();
     }
 }

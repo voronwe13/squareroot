@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.widget.TextView;
 
 /**
  * UI class is not being used yet
@@ -54,6 +55,18 @@ public class UI {
 
 	public static void handleTouching(float xpos, float ypos) {
 
+	}
+	
+	public static void updateMoveCount(){
+		SquareRootActivity.activity.runOnUiThread(new Runnable(){
+	
+			@Override
+			public void run() {
+				TextView tv = (TextView) SquareRootActivity.activity.findViewById(R.id.textView1);
+				tv.setText("Moves: "+Game.movecount);
+			}
+			
+		});
 	}
 
 }

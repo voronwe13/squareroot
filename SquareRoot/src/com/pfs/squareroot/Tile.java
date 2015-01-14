@@ -4,6 +4,7 @@ import java.util.Random;
 
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.widget.TextView;
 
 import com.threed.jpct.Object3D;
 import com.threed.jpct.RGBColor;
@@ -16,7 +17,8 @@ public abstract class Tile {
 	public final static float DEFAULTDEPTH = 0.2f;
 	private final static float offset = 0.0002f; //so tiles don't overlap
 	private final static float snapdistance = 0.2f; //to snap tiles into grid	
-	public final float width, height, depth;
+	public final float width, height, depth, originalx, originaly;
+	public float oldsnapx, oldsnapy;
 	RectF positionrect;
 	private float originz;
 	
@@ -25,10 +27,13 @@ public abstract class Tile {
 	
 	private static SimpleVector utility = new SimpleVector();
 	
-	public Tile(float width, float height, float depth){
+	public Tile(float width, float height, float depth, float x, float y){
 		this.width = width;
 		this.height = height;
 		this.depth = depth;
+		originalx = oldsnapx = x;
+		originaly = oldsnapy = y;
+		
 		originz = depth/2;
 		
 		float widthoff = width-offset;
@@ -90,9 +95,7 @@ public abstract class Tile {
 
 	public static Tile createRootTile(float width, float height, float topleftx, float toplefty) {
 		// TODO Auto-generated method stub
-		RootTile roottile = RootTile.getRootTile(width, height);
-		
-		roottile.moveTo(topleftx, toplefty);
+		RootTile roottile = RootTile.getRootTile(width, height, topleftx, toplefty);
 		return roottile;
 	}
 
@@ -109,9 +112,9 @@ public abstract class Tile {
 	}
 	
 	public void moveTo(float topleftx, float toplefty) {
-		float dx = topleftx - positionrect.top;
-		float dy = toplefty - positionrect.left;
-		positionrect.offset(dx, dy);
+		//float dx = topleftx - positionrect.top;
+		//float dy = toplefty - positionrect.left;
+		positionrect.offsetTo(topleftx, toplefty);
 		
 		utility.set(positionrect.left, positionrect.top, originz);
 		tileobj.setOrigin(utility);
@@ -134,17 +137,31 @@ public abstract class Tile {
 	}
 
 	public void snap() {
-		float xdist = Math.round(positionrect.left) - positionrect.left;
-		float ydist = Math.round(positionrect.top) - positionrect.top;
+		int snapx = Math.round(positionrect.left);
+		int snapy = Math.round(positionrect.top);
+		float xdist = snapx - positionrect.left;
+		float ydist = snapy - positionrect.top;
 		if( Math.abs(xdist) > snapdistance){
 			xdist = 0;
 		}		
 		if( Math.abs(ydist) > snapdistance){
 			ydist = 0;
 		}
+		if(xdist == 0 && ydist == 0)
+			return;
+		if(snapx != oldsnapx || snapy != oldsnapy){
+		
+			Game.movecount++;
+			UI.updateMoveCount();
+		}
+		oldsnapx = snapx;
+		oldsnapy = snapy;
 		positionrect.offset(xdist, ydist);
 		utility.set(positionrect.left, positionrect.top, originz);
 		tileobj.setOrigin(utility);		
 	}
 	
+	public void reset(){
+		moveTo(originalx, originaly);
+	}
 }

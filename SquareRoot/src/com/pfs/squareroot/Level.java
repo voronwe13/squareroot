@@ -68,5 +68,12 @@ public class Level {
 		}
 		return outtiles;
 	}
+	
+	public void reset(){
+		int size = tiles.size();
+		for(int i=0; i<size; i++){
+			tiles.get(i).reset();
+		}
+	}
 
 }

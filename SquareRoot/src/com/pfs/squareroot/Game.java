@@ -15,7 +15,7 @@ import com.threed.jpct.World;
 public class Game {
 	private static final String TAG = "Game";
 	static Level level;
-	static int currentlevelnum;
+	static int currentlevelnum, movecount;
 	static World world;
 	static boolean tileheld;
 	static Tile currenttile;
@@ -28,6 +28,7 @@ public class Game {
 	public static void setup(World world) {
 		Game.world = world;
 		currentlevelnum = 1;
+		movecount = 0;
 		level = new Level(currentlevelnum);
 		Controls.camera.setPosition(3, 3, -8);
 		Controls.camera.lookAt(new SimpleVector(3,3,0));
@@ -91,4 +92,10 @@ public class Game {
 			currenttile.snap();
 	}
 
+	public static void reset(){
+		level.reset();
+		movecount = 0;
+		UI.updateMoveCount();
+	}
+	
 }
