@@ -163,5 +163,7 @@ public abstract class Tile {
 	
 	public void reset(){
 		moveTo(originalx, originaly);
+		oldsnapx = originalx;
+		oldsnapy = originaly;
 	}
 }
