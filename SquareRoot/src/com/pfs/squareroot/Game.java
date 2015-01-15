@@ -41,7 +41,7 @@ public class Game {
 	}
 	
 	public static void get3DFrom2D(float x, float y, SimpleVector tofill){
-		Log.d(TAG, "touch was at screen position: "+x+", "+y);
+		//Log.d(TAG, "touch was at screen position: "+x+", "+y);
 		Interact2D.reproject2D3DWS(Controls.camera, SqRtRenderer.fb, 
 				Math.round(x), Math.round(y), direction);
 		float denom = direction.calcDot(normal);
@@ -53,7 +53,7 @@ public class Game {
 		tofill.set(direction);
 		tofill.scalarMul(dist);
 		tofill.add(Controls.campos);
-		Log.d(TAG, "touch was at world position: "+tofill.toString());		
+		//Log.d(TAG, "touch was at world position: "+tofill.toString());		
 	}
 
 	public static boolean checkTouch() {

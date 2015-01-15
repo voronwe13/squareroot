@@ -6,13 +6,16 @@ import javax.microedition.khronos.opengles.GL10;
 import com.threed.jpct.Camera;
 import com.threed.jpct.Config;
 import com.threed.jpct.FrameBuffer;
+import com.threed.jpct.Light;
 import com.threed.jpct.RGBColor;
+import com.threed.jpct.SimpleVector;
 import com.threed.jpct.Texture;
 import com.threed.jpct.TextureManager;
 import com.threed.jpct.World;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -23,10 +26,12 @@ public class SqRtRenderer implements GLSurfaceView.Renderer {
 
 	public static FrameBuffer fb = null;
 	private World world = null;
+	private Light sun;
 	private RGBColor back = new RGBColor(170, 200, 255);
 	private boolean iscreated;
 	private Context context;
 	private SqRtGLSurfaceView srglsv;
+	
 	
 	public SqRtRenderer(SqRtGLSurfaceView srglsv, SquareRootActivity context) {
 		this.srglsv = srglsv;
@@ -40,6 +45,7 @@ public class SqRtRenderer implements GLSurfaceView.Renderer {
 		Controls.execute();
 		Game.GLupdate();
 		UI.update();
+		Shaders.updateShaders();
 		world.renderScene(fb);
 		world.draw(fb);
 		fb.display();
@@ -58,7 +64,11 @@ public class SqRtRenderer implements GLSurfaceView.Renderer {
 			world = new World();
 			world.setAmbientLight(50, 50, 50);
 			world.setClippingPlanes(1, 5000);
-			setupTextures();
+			sun = new Light(world);
+			sun.setIntensity(255, 255, 240);
+			sun.setPosition(new SimpleVector(-2,-2,-12));
+			Shaders.setupShaders();
+			Textures.setupTextures(fb);
 			Camera cam = world.getCamera();
 			Controls.setup(cam);
 			Game.setup(world);
@@ -91,27 +101,6 @@ public class SqRtRenderer implements GLSurfaceView.Renderer {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	public void setupTextures(){
-		TextureManager tm = TextureManager.getInstance();
-		if(tm.containsTexture("green"))
-			tm.removeAndUnload("green", fb);
 
-		Paint paint = new Paint();
-		Rect r = new Rect(4, 4, 60, 60);
-		Bitmap tilebmp = Bitmap.createBitmap(64, 64, Bitmap.Config.ARGB_8888);
-		Canvas canvas = new Canvas(tilebmp);
-		// fill
-	    paint.setStyle(Paint.Style.FILL);
-	    paint.setColor(Color.GREEN); 
-	    canvas.drawRect(r, paint);
-
-	    // border
-	    paint.setStyle(Paint.Style.STROKE);
-	    paint.setColor(Color.BLACK);
-	    canvas.drawRect(r, paint);
-		Texture greentex = new Texture(tilebmp);
-		tm.addTexture("green", greentex);
-	}
 
 }

@@ -90,6 +90,8 @@ public abstract class Tile {
 		tileobj.build();
 		
 		Game.world.addObject(tileobj);
+		tileobj.setShader(Shaders.normalmap);
+		tileobj.setSpecularLighting(true);
 		
 	}
 
@@ -158,7 +160,7 @@ public abstract class Tile {
 		oldsnapy = snapy;
 		positionrect.offset(xdist, ydist);
 		utility.set(positionrect.left, positionrect.top, originz);
-		tileobj.setOrigin(utility);		
+		tileobj.setOrigin(utility);
 	}
 	
 	public void reset(){

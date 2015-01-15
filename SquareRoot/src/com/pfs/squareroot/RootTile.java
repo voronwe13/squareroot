@@ -6,7 +6,7 @@ public class RootTile extends Tile {
 	
 	private RootTile(float width, float height, float depth, float x, float y) {
 		super(width, height, depth, x, y);
-		// TODO Auto-generated constructor stub
+		tileobj.setTexture(Textures.wood2x2ti);
 		
 	}
 	
