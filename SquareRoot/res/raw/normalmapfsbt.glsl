@@ -32,19 +32,21 @@ void main( void )
 
    vec3 texnormal = vec3(texture2D( textureUnit1, vec2( vUV.s, vUV.t )));
    texnormal = texnormal*2. - 1.;
-
+	//texnormal.x = -texnormal.x;
+	//texnormal.y = -texnormal.y;
+	//texnormal.z = -texnormal.z;
    vec3 Tnorm = normalize(T);
    vec3 Bnorm = normalize(B);
-	mat3 M = mat3(Tnorm,  N, Bnorm);
+	mat3 M = mat3(Tnorm, Bnorm, N );
    vec3 newnormal = normalize(M*texnormal);
    vec3 L = normalize(lightPositions[0] - V);   
    vec3 E = normalize(-V); // we are in Eye Coordinates, so EyePos is (0,0,0)  
-   vec3 R = normalize(-reflect(L, texnormal));
+   vec3 R = normalize(-reflect(L, newnormal));
  
 //   vec3 R = normalize(-reflect(L,N));    
 
    //calculate Diffuse Term:  
-   vec4 Idiff = vec4(diffuseColors[0] * max(dot(N,L), 0.0),1.);
+   vec4 Idiff = vec4(diffuseColors[0] * max(dot(newnormal,L), 0.0),1.);
    Idiff = clamp(Idiff, 0.0, 1.0);     
    
    // calculate Specular Term:

@@ -87,6 +87,8 @@ public class Controls {
 			if(pointerid1 == me.getPointerId(pointerindex)){
 				primaryFingerReleased();
 			}
+			touchvecold.x = 0;
+			touchvecold.y = 0;
 			return true;
 		}
 		
@@ -135,7 +137,8 @@ public class Controls {
 		touchvec.y = me.getY(index2) - me.getY(index1);
 		if(touchvecold.x == 0 && touchvecold.y == 0)
 			touchvecold.set(touchvec);
-		rotated = true;
+		else
+			rotated = true;
 	}
 
 	/**
@@ -217,7 +220,7 @@ public class Controls {
 					camera.lookAt(lookat);
 				} else {
 					camera.setPosition(Game.level.center);
-					camera.rotateCameraZ(2*sign*rotation);
+					camera.rotateCameraZ(sign*rotation);
 				}
 				camera.setPosition(campos);
 				
@@ -267,8 +270,11 @@ public class Controls {
 	 */
 	public static void setup(Camera cam){
 		camera = cam;
+		//campos = camera.getPosition();
+		//camera.moveCamera(Camera.CAMERA_MOVEIN, 5);
+		camera.setPosition(4,3,-6);
 		campos = camera.getPosition();
-		camera.moveCamera(Camera.CAMERA_MOVEOUT, 5);
+		camera.lookAt(new SimpleVector(3,0,0));
 		Controls.context = context;
 		controllingcam = false;
 		lookat = new SimpleVector();

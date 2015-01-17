@@ -55,19 +55,19 @@ public class Textures {
 		Texture wood2x1 = new Texture(text2x1bmp);
 		tm.addTexture("wood2x1", wood2x1);
 
-		Bitmap normal1x1bmp = BitmapFactory.decodeResource(SquareRootActivity.activity.getResources(), R.drawable.normalmap, options);
+		Bitmap normal1x1bmp = BitmapFactory.decodeResource(SquareRootActivity.activity.getResources(), R.drawable.normalmap2, options);
 		Texture normal1x1 = new Texture(normal1x1bmp);
 		tm.addTexture("normal1x1", normal1x1);
 		
-		Bitmap normal1x2bmp = BitmapFactory.decodeResource(SquareRootActivity.activity.getResources(), R.drawable.normalmap1x2, options);
+		Bitmap normal1x2bmp = BitmapFactory.decodeResource(SquareRootActivity.activity.getResources(), R.drawable.normalmap21x2, options);
 		Texture normal1x2 = new Texture(normal1x2bmp);
 		tm.addTexture("normal1x2", normal1x2);
 		
-		Bitmap normal2x1bmp = BitmapFactory.decodeResource(SquareRootActivity.activity.getResources(), R.drawable.normalmap2x1, options);
+		Bitmap normal2x1bmp = BitmapFactory.decodeResource(SquareRootActivity.activity.getResources(), R.drawable.normalmap22x1, options);
 		Texture normal2x1 = new Texture(normal2x1bmp);
 		tm.addTexture("normal2x1", normal2x1);
 		
-		Bitmap normal2x2bmp = BitmapFactory.decodeResource(SquareRootActivity.activity.getResources(), R.drawable.normalmap2x2, options);
+		Bitmap normal2x2bmp = BitmapFactory.decodeResource(SquareRootActivity.activity.getResources(), R.drawable.normalmap22x2, options);
 		Texture normal2x2 = new Texture(normal2x2bmp);
 		tm.addTexture("normal2x2", normal2x2);
 		

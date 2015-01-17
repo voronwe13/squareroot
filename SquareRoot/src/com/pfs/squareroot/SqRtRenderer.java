@@ -66,7 +66,7 @@ public class SqRtRenderer implements GLSurfaceView.Renderer {
 			world.setClippingPlanes(1, 5000);
 			sun = new Light(world);
 			sun.setIntensity(255, 255, 240);
-			sun.setPosition(new SimpleVector(-2,-2,-12));
+			sun.setPosition(new SimpleVector(-6,-6,-12));
 			Shaders.setupShaders();
 			Textures.setupTextures(fb);
 			Camera cam = world.getCamera();

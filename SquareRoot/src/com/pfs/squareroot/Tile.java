@@ -67,13 +67,13 @@ public abstract class Tile {
 		tileobj.addTriangle(x2y2b, u0, v0, x2y1b, u0, v1, x2y2t, u1, v1);
 		tileobj.addTriangle(x2y1b, u0, v0, x2y1t, u1, v1, x2y2t, u1, v0);
 
-		//front plane
-		tileobj.addTriangle(x1y1t, u0, v0, x1y1b, u0, v1, x2y1t, u1, v1);
-		tileobj.addTriangle(x1y1b, u0, v0, x2y1b, u1, v1, x2y1t, u1, v0);
-		
 		//back plane
-		tileobj.addTriangle(x1y2t, u0, v0, x2y2t, u0, v1, x1y2b, u1, v1);
-		tileobj.addTriangle(x2y2t, u0, v0, x2y2b, u1, v1, x1y2b, u1, v0);
+		tileobj.addTriangle(x1y1t, u0, v0, x2y1t, u0, v1, x1y1b, u1, v1);
+		tileobj.addTriangle(x1y1b, u0, v0, x2y1t, u1, v1, x2y1b, u1, v0);
+		
+		//front plane
+		tileobj.addTriangle(x1y2t, u0, v0, x1y2b, u0, v1, x2y2t, u1, v1);
+		tileobj.addTriangle(x2y2t, u0, v0, x1y2b, u1, v1, x2y2b, u1, v0);
 		
 //		int textcolor = texturecount*40;
 //		texturename = "tiletexture" + texturecount;
@@ -86,12 +86,12 @@ public abstract class Tile {
 //		tm.addTexture(texturename, texture);
 		
 		tileobj.setTexture("green");
-		
+		tileobj.setShader(Shaders.normalmap);
+		tileobj.setSpecularLighting(true);		
 		tileobj.build();
 		
 		Game.world.addObject(tileobj);
-		tileobj.setShader(Shaders.normalmap);
-		tileobj.setSpecularLighting(true);
+
 		
 	}
 
