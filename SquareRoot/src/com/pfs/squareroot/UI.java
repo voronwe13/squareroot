@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * UI class is not being used yet
@@ -69,4 +70,16 @@ public class UI {
 		});
 	}
 
+	public static void winGame() {
+		//TODO: do something better on a win...
+		SquareRootActivity.activity.runOnUiThread(new Runnable(){
+			
+			@Override
+			public void run() {	
+				Toast.makeText(Controls.context, "You won!", Toast.LENGTH_LONG).show();
+			}
+			
+		});
+	}
+	
 }

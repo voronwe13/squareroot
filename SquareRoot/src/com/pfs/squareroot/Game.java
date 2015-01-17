@@ -5,6 +5,7 @@ import java.util.List;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.threed.jpct.Interact2D;
 import com.threed.jpct.Object3D;
@@ -24,14 +25,13 @@ public class Game {
 			position = new SimpleVector();
 	static final SimpleVector normal = new SimpleVector(0,0,-1);
 	static RectF testrectx = new RectF(), testrecty = new RectF();
+	private static boolean gamewon;
 
 	public static void setup(World world) {
 		Game.world = world;
 		currentlevelnum = 1;
 		movecount = 0;
 		level = new Level(currentlevelnum);
-		Controls.camera.setPosition(3, 3, -8);
-		Controls.camera.lookAt(new SimpleVector(3,3,0));
 		tileheld = false;
 	}
 	
@@ -88,8 +88,13 @@ public class Game {
 
 	public static void handleRelease() {
 		tileheld = false;
-		if(currenttile != null)
+		if(currenttile != null){
 			currenttile.snap();
+			if(currenttile == level.roottile)
+				gamewon = level.checkWin();
+			if(gamewon)
+				UI.winGame();
+		}
 	}
 
 	public static void reset(){

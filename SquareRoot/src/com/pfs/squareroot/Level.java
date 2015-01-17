@@ -10,7 +10,8 @@ import com.threed.jpct.SimpleVector;
 
 public class Level {
 	int width, height;
-	private Tile roottile;
+	float winleft, wintop;
+	RootTile roottile;
 	Object3D box;
 	RectF boxrect;
 	SimpleVector center;
@@ -45,6 +46,9 @@ public class Level {
 			tiles.add(Tile.create1x1Tile(4,2));
 			tiles.add(Tile.create1x1Tile(4,3));
 			tiles.add(Tile.create1x1Tile(5,4));
+			
+			winleft = 4;
+			wintop = 2;
 		}
 	}
 
@@ -74,6 +78,15 @@ public class Level {
 		for(int i=0; i<size; i++){
 			tiles.get(i).reset();
 		}
+	}
+
+	public boolean checkWin() {
+		// TODO Auto-generated method stub
+		float epsilon = 0.0001f;
+		if((Math.abs(roottile.positionrect.left - winleft) < epsilon) &&
+				Math.abs(roottile.positionrect.top - wintop) < epsilon)
+			return true;
+		return false;
 	}
 
 }

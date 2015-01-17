@@ -95,7 +95,7 @@ public abstract class Tile {
 		
 	}
 
-	public static Tile createRootTile(float width, float height, float topleftx, float toplefty) {
+	public static RootTile createRootTile(float width, float height, float topleftx, float toplefty) {
 		// TODO Auto-generated method stub
 		RootTile roottile = RootTile.getRootTile(width, height, topleftx, toplefty);
 		return roottile;

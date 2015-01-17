@@ -33,7 +33,8 @@ public class Controls {
 	private static ScaleGestureDetector SGD;
 	private static ScaleListener scalelistener;
 	private static Level level;
-	private static Context context;
+	static Context context;
+	private static boolean cameradisabled;
 	
 	private static class ScaleListener extends ScaleGestureDetector.
 	SimpleOnScaleGestureListener {
@@ -147,7 +148,7 @@ public class Controls {
 	 * operations occur.
 	 */
 	public static void execute() {
-		camera.getPosition(campos);
+		//camera.getPosition(campos);
 		if(released){
 			UI.handleRelease(Math.round(xrelease), Math.round(yrelease));
 			Game.handleRelease();
@@ -172,8 +173,10 @@ public class Controls {
 		
 		if(!controllingcam){ //if moving a game piece
 			Game.handleTouch();
-			return;
 		}
+		if(cameradisabled)
+			return;
+		
 		if(Math.abs(movex)>10){
 			//Log.d("Controls", "movex: "+movex);
 			movex = movex>0?10:-10;
@@ -267,16 +270,16 @@ public class Controls {
 	 * 
 	 * @param context	the activity
 	 * @param cam		the camera from the world.
+	 * @param context 
 	 */
-	public static void setup(Camera cam){
+	public static void setup(Camera cam, Context context){
 		camera = cam;
 		//campos = camera.getPosition();
 		//camera.moveCamera(Camera.CAMERA_MOVEIN, 5);
-		camera.setPosition(4,3,-6);
-		campos = camera.getPosition();
-		camera.lookAt(new SimpleVector(3,0,0));
+		//camera.lookAt(new SimpleVector(3,0,0));
 		Controls.context = context;
 		controllingcam = false;
+		cameradisabled = true;
 		lookat = new SimpleVector();
 		center = new SimpleVector();
 		touchvec = new SimpleVector();
@@ -290,6 +293,7 @@ public class Controls {
 		rotation = oldangle = 0;
 		pointerid2 = -1;
 		topdown = true;
+		Log.d(TAG, "at end of Controls.setup, camera position: "+camera.getPosition().toString());
 	}
 	
 	/**
@@ -312,15 +316,19 @@ public class Controls {
 		moveboundt = height/8;
 		moveboundb = 7*height/8;
 		zoom = 0;
-		controllingcam = true;
+		//controllingcam = true;
 		touching = released = false;
 		maxy = level.height+1;
 		maxx = level.width+1;
 		maxz = maxx+maxy;
+		camera.setPosition(4,3,-6);
+		campos = camera.getPosition();
 		//camera.moveCamera(Camera.CAMERA_MOVEIN, width/2);
 		//cam.moveCamera(Camera.CAMERA_MOVERIGHT, 20);
 		//camera.moveCamera(Camera.CAMERA_MOVEUP, level.maxheight + 10);
 		//camera.lookAt(level.terrainobj.getTransformedCenter());
+		Log.d(TAG, "at end of Controls.setupLevel, camera position: "+camera.getPosition().toString());
+
 	}
 	
 	
