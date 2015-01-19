@@ -4,6 +4,7 @@ import java.util.Random;
 
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.threed.jpct.Object3D;
@@ -17,6 +18,7 @@ public abstract class Tile {
 	public final static float DEFAULTDEPTH = 0.2f;
 	private final static float offset = 0.0002f; //so tiles don't overlap
 	private final static float snapdistance = 0.2f; //to snap tiles into grid	
+	private static final String TAG = "Tile";
 	public final float width, height, depth, originalx, originaly;
 	public float oldsnapx, oldsnapy;
 	RectF positionrect;
@@ -152,8 +154,8 @@ public abstract class Tile {
 		if(xdist == 0 && ydist == 0)
 			return;
 		if(snapx != oldsnapx || snapy != oldsnapy){
-		
 			Game.movecount++;
+			Log.d(TAG, "increasing movecount to "+Game.movecount);
 			UI.updateMoveCount();
 		}
 		oldsnapx = snapx;

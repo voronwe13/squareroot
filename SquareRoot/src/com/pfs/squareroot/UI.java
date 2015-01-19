@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,7 @@ import android.widget.Toast;
  *
  */
 public class UI {
+	protected static final String TAG = "UI";
 	public static GameMode mode, oldmode;
 	public static Context context;
 	public static Game gamestate;
@@ -63,11 +65,13 @@ public class UI {
 	
 			@Override
 			public void run() {
-				TextView tv = (TextView) SquareRootActivity.activity.findViewById(R.id.textView1);
-				tv.setText("Moves: "+Game.movecount);
+
+				SquareRootActivity.activity.tv.setText("Moves: "+Game.movecount);
+				Log.d(TAG, "trying to set text to "+SquareRootActivity.activity.tv.getText());
 			}
 			
 		});
+		
 	}
 
 	public static void winGame() {

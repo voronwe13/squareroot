@@ -33,7 +33,7 @@ public class SqRtRenderer implements GLSurfaceView.Renderer {
 	private SqRtGLSurfaceView srglsv;
 	private static SimpleVector utility = new SimpleVector();
 	private double angle = 0;
-	private final double radius = 3f;
+	private final double radius = 3.5f;
 	private final float lightz = -14f;
 	private final double TWOPI = Math.PI * 2;
 	
@@ -87,6 +87,7 @@ public class SqRtRenderer implements GLSurfaceView.Renderer {
 			SquareRootActivity.rendererinitialized = true;
 		} else {
 			world = SquareRootActivity.activity.world;
+			world.removeAllLights();
 			sun = new Light(world);
 			sun.setIntensity(255, 255, 240);
 			sun.setPosition(new SimpleVector(-4,-4,-14));
