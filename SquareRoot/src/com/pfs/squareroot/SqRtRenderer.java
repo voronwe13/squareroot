@@ -31,6 +31,11 @@ public class SqRtRenderer implements GLSurfaceView.Renderer {
 	private boolean iscreated;
 	private Context context;
 	private SqRtGLSurfaceView srglsv;
+	private static SimpleVector utility = new SimpleVector();
+	private double angle = 0;
+	private final double radius = 3f;
+	private final float lightz = -14f;
+	private final double TWOPI = Math.PI * 2;
 	
 	
 	public SqRtRenderer(SqRtGLSurfaceView srglsv, SquareRootActivity context) {
@@ -42,6 +47,11 @@ public class SqRtRenderer implements GLSurfaceView.Renderer {
 	@Override
 	public void onDrawFrame(GL10 arg0) {
 		fb.clear(back);
+		angle += 0.002;
+		if(angle > TWOPI)
+			angle = 0;
+		utility.set((float)(radius*Math.cos(angle))-4, (float) (radius*Math.sin(angle))-4, lightz);
+		sun.setPosition(utility);
 		Controls.execute();
 		Game.GLupdate();
 		UI.update();
@@ -66,7 +76,7 @@ public class SqRtRenderer implements GLSurfaceView.Renderer {
 			world.setClippingPlanes(1, 5000);
 			sun = new Light(world);
 			sun.setIntensity(255, 255, 240);
-			sun.setPosition(new SimpleVector(-6,-6,-12));
+			sun.setPosition(new SimpleVector(-4,-4,-14));
 			Shaders.setupShaders();
 			Textures.setupTextures(fb);
 			Camera cam = world.getCamera();
@@ -77,6 +87,9 @@ public class SqRtRenderer implements GLSurfaceView.Renderer {
 			SquareRootActivity.rendererinitialized = true;
 		} else {
 			world = SquareRootActivity.activity.world;
+			sun = new Light(world);
+			sun.setIntensity(255, 255, 240);
+			sun.setPosition(new SimpleVector(-4,-4,-14));
 		}
 		
 	}
