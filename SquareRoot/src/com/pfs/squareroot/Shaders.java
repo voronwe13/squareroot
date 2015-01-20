@@ -43,11 +43,12 @@ public class Shaders {
 	static String normalmapvs2 = Loader.loadTextFile(res.openRawResource(R.raw.vertexshader_offset));
 	static String normalmapfs2 = Loader.loadTextFile(res.openRawResource(R.raw.fragmentshader_offset));
 	
-	static GLSLShader normalmap;
+	static GLSLShader normalmap, phong;
 	static Matrix normalmatrix;
 	
 	public static void setupShaders(){
 		normalmap = new GLSLShader(phongvs, normalmapfsbt);
+		phong = new GLSLShader(phongvs, phongfs);
 		//normalmap = new GLSLShader(normalmapvs2, normalmapfs2);
 		//normalmap.setStaticUniform("invRadius", 0.0003f);
 		//normalmap.compile(new ArrayList<VertexAttributes>());

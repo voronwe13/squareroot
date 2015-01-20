@@ -16,7 +16,6 @@ uniform vec3 lightsource;
 */
 
 uniform sampler2D textureUnit0;
-uniform sampler2D textureUnit1;
 uniform vec4 ambientColor;
 uniform vec3 diffuseColors[8];
 uniform vec3 specularColors[8];

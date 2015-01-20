@@ -321,7 +321,7 @@ public class Controls {
 		maxy = level.height+1;
 		maxx = level.width+1;
 		maxz = maxx+maxy;
-		camera.setPosition(3,3,-6);
+		camera.setPosition(3.3f,3,-6.5f);
 		campos = camera.getPosition();
 		//camera.moveCamera(Camera.CAMERA_MOVEIN, width/2);
 		//cam.moveCamera(Camera.CAMERA_MOVERIGHT, 20);

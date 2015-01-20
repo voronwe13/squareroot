@@ -81,6 +81,7 @@ public class SqRtRenderer implements GLSurfaceView.Renderer {
 			Textures.setupTextures(fb);
 			Camera cam = world.getCamera();
 			Controls.setup(cam, context);
+			UI.setup(context, world, fb, w, h);
 			Game.setup(world);
 			Controls.setupLevel(Game.level, w, h);
 			SquareRootActivity.activity.world = world;

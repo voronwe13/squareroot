@@ -39,6 +39,10 @@ public class Textures {
 		BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inScaled = false;
 		
+		Bitmap woodboxbmp = BitmapFactory.decodeResource(SquareRootActivity.activity.getResources(), R.drawable.bg512, options);
+		Texture woodbox = new Texture(woodboxbmp);
+		tm.addTexture("woodbox", woodbox);
+		
 		Bitmap text1x1bmp = BitmapFactory.decodeResource(SquareRootActivity.activity.getResources(), R.drawable.wood1x1text256_3, options);
 		Texture wood1x1 = new Texture(text1x1bmp);
 		tm.addTexture("wood1x1", wood1x1);

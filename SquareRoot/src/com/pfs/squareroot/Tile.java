@@ -41,15 +41,31 @@ public abstract class Tile {
 		float widthoff = width-offset;
 		float heightoff = height-offset;
 		positionrect = new RectF(offset, offset, widthoff, heightoff);
-		tileobj = new Object3D(20);
-		SimpleVector x1y1t = new SimpleVector(offset,offset,0);
-		SimpleVector x1y1b = new SimpleVector(offset,offset,depth);
-		SimpleVector x2y1t = new SimpleVector(widthoff,offset,0);
-		SimpleVector x2y1b = new SimpleVector(widthoff,offset,depth);
-		SimpleVector x1y2t = new SimpleVector(offset,heightoff,0);
-		SimpleVector x1y2b = new SimpleVector(offset,heightoff,depth);
-		SimpleVector x2y2t = new SimpleVector(widthoff,heightoff,0);
-		SimpleVector x2y2b = new SimpleVector(widthoff,heightoff,depth);
+		tileobj = createBox(width, height, depth, offset);
+		
+		tileobj.setTexture("green");
+		tileobj.setShader(Shaders.normalmap);
+		tileobj.setSpecularLighting(true);		
+		tileobj.build();
+		
+		Game.world.addObject(tileobj);
+
+		
+	}
+
+	public static Object3D createBox(float width, float height, float depth, float offset){
+		float widthoff = width-offset;
+		float heightoff = height-offset;
+
+		Object3D tileobj = new Object3D(20);
+		SimpleVector x1y1t = new SimpleVector(offset,offset,-depth);
+		SimpleVector x1y1b = new SimpleVector(offset,offset,0);
+		SimpleVector x2y1t = new SimpleVector(widthoff,offset,-depth);
+		SimpleVector x2y1b = new SimpleVector(widthoff,offset,0);
+		SimpleVector x1y2t = new SimpleVector(offset,heightoff,-depth);
+		SimpleVector x1y2b = new SimpleVector(offset,heightoff,0);
+		SimpleVector x2y2t = new SimpleVector(widthoff,heightoff,-depth);
+		SimpleVector x2y2b = new SimpleVector(widthoff,heightoff,0);
 		
 		float u0 = 0, u1 = 1, v0 = 0, v1 = 1;
 		
@@ -62,41 +78,25 @@ public abstract class Tile {
 		tileobj.addTriangle(x1y1b, u0, v0, x2y2b, u1, v1, x1y2b, u0, v1);
 		
 		//left plane
-		tileobj.addTriangle(x1y2t, u0, v0, x1y1b, u0, v1, x1y2b, u1, v1);
-		tileobj.addTriangle(x1y2t, u0, v0, x1y1t, u1, v1, x1y1b, u1, v0);
+		tileobj.addTriangle(x1y2t, u1, v0, x1y1b, u0, v1, x1y2b, u1, v1);
+		tileobj.addTriangle(x1y2t, u1, v0, x1y1t, u0, v0, x1y1b, u0, v1);
 		
 		//right plane
-		tileobj.addTriangle(x2y2b, u0, v0, x2y1b, u0, v1, x2y2t, u1, v1);
-		tileobj.addTriangle(x2y1b, u0, v0, x2y1t, u1, v1, x2y2t, u1, v0);
+		tileobj.addTriangle(x2y2b, u0, v1, x2y1b, u1, v1, x2y2t, u0, v0);
+		tileobj.addTriangle(x2y1b, u1, v1, x2y1t, u1, v0, x2y2t, u0, v0);
 
 		//back plane
 		tileobj.addTriangle(x1y1t, u0, v0, x2y1t, u0, v1, x1y1b, u1, v1);
 		tileobj.addTriangle(x1y1b, u0, v0, x2y1t, u1, v1, x2y1b, u1, v0);
 		
 		//front plane
-		tileobj.addTriangle(x1y2t, u0, v0, x1y2b, u0, v1, x2y2t, u1, v1);
-		tileobj.addTriangle(x2y2t, u0, v0, x1y2b, u1, v1, x2y2b, u1, v0);
+		tileobj.addTriangle(x1y2t, u0, v0, x1y2b, u0, v1, x2y2t, u1, v0);
+		tileobj.addTriangle(x2y2t, u1, v0, x1y2b, u0, v1, x2y2b, u1, v1);
 		
-//		int textcolor = texturecount*40;
-//		texturename = "tiletexture" + texturecount;
-//		texturecount++;
-//		Texture texture = new Texture(1,1,new RGBColor(textcolor, 255 - textcolor, textcolor));
-//		
-//		TextureManager tm = TextureManager.getInstance();
-//		if(tm.containsTexture(texturename))
-//			tm.removeAndUnload(texturename, SqRtRenderer.fb);
-//		tm.addTexture(texturename, texture);
-		
-		tileobj.setTexture("green");
-		tileobj.setShader(Shaders.normalmap);
-		tileobj.setSpecularLighting(true);		
-		tileobj.build();
-		
-		Game.world.addObject(tileobj);
-
+		return tileobj;
 		
 	}
-
+	
 	public static RootTile createRootTile(float width, float height, float topleftx, float toplefty) {
 		// TODO Auto-generated method stub
 		RootTile roottile = RootTile.getRootTile(width, height, topleftx, toplefty);

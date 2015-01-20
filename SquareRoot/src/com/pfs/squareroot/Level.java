@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.graphics.RectF;
+import android.util.Log;
 
 import com.threed.jpct.Object3D;
 import com.threed.jpct.SimpleVector;
 
 public class Level {
+	private static final String TAG = "Level";
 	int width, height;
 	float winleft, wintop;
 	RootTile roottile;
@@ -24,8 +26,55 @@ public class Level {
 	}
 
 	private void createBox() {
-		boxrect = new RectF(0.99f,0.99f, 6.01f, 5.01f);
+		float insideleft = 0.99f;
+		float insideright = 6.01f;
+		float insidetop = 0.99f;
+		float insidebottom = 5.01f;
+		float borderwidth = 0.15f;
+		float depth = Tile.DEFAULTDEPTH + 0.1f;
+		boxrect = new RectF(insideleft,insidetop, insideright, insidebottom);
 		center = new SimpleVector(boxrect.centerX(), boxrect.centerY(), 0);
+		Object3D boxbase = Tile.createBox(boxrect.width()+borderwidth*2, boxrect.height()+borderwidth*2, depth, 0);
+		boxbase.setOrigin(new SimpleVector(insideleft - borderwidth, insidetop - borderwidth, depth));
+		boxbase.setTexture("woodbox");
+		boxbase.setShader(Shaders.phong);
+		boxbase.setSpecularLighting(true);		
+		boxbase.build();
+		
+		Object3D boxtop = Tile.createBox(boxrect.width()+borderwidth*2, borderwidth, depth, 0);
+		boxtop.setOrigin(new SimpleVector(insideleft - borderwidth, insidetop - borderwidth, 0));
+		boxtop.setTexture("woodbox");
+		boxtop.setShader(Shaders.phong);
+		boxtop.setSpecularLighting(true);		
+		boxtop.build();
+		
+		Object3D boxbottom = Tile.createBox(boxrect.width()+borderwidth*2, borderwidth, depth, 0);
+		boxbottom.setOrigin(new SimpleVector(insideleft - borderwidth, insidebottom, 0));
+		boxbottom.setTexture("woodbox");
+		boxbottom.setShader(Shaders.phong);
+		boxbottom.setSpecularLighting(true);		
+		boxbottom.build();
+		
+		Object3D boxleft = Tile.createBox(borderwidth, boxrect.height(), depth, 0);
+		boxleft.setOrigin(new SimpleVector(insideleft - borderwidth, insidetop, 0));
+		boxleft.setTexture("woodbox");
+		boxleft.setShader(Shaders.phong);
+		boxleft.setSpecularLighting(true);		
+		boxleft.build();
+		
+		Object3D boxright = Tile.createBox(borderwidth, boxrect.height(), depth, 0);
+		boxright.setOrigin(new SimpleVector(insideright, insidetop, 0));
+		boxright.setTexture("woodbox");
+		boxright.setShader(Shaders.phong);
+		boxright.setSpecularLighting(true);		
+		boxright.build();
+		
+		UI.world.addObject(boxbase);
+		UI.world.addObject(boxbottom);
+		UI.world.addObject(boxtop);
+		UI.world.addObject(boxleft);
+		UI.world.addObject(boxright);
+		
 	}
 
 	private void createTiles(int levelnum) {
