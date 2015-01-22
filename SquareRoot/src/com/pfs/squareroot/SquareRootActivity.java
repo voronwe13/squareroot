@@ -16,15 +16,16 @@ public class SquareRootActivity extends Activity {
 	public World world;
 	public static boolean rendererinitialized = false;
 	public static TextView tv;
+	public static ViewGroup content;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_square_root);
-		ViewGroup vg = (ViewGroup) findViewById(android.R.id.content);
+		ViewGroup content = (ViewGroup) findViewById(android.R.id.content);
 		srglsv = new SqRtGLSurfaceView(this);
 		tv = (TextView) findViewById(R.id.textView1);
-		vg.addView(srglsv,0);
+		content.addView(srglsv,0);
 		Controls.activitySetup(this);
 	}
 	
@@ -61,5 +62,9 @@ public class SquareRootActivity extends Activity {
     
     public void reset(View v){
     	Game.reset();
+    }
+    
+    public void win(View v){
+    	Game.win();
     }
 }

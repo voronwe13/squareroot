@@ -33,7 +33,7 @@ public class SqRtRenderer implements GLSurfaceView.Renderer {
 	private SqRtGLSurfaceView srglsv;
 	private static SimpleVector utility = new SimpleVector();
 	private double angle = 0;
-	private final double radius = 3.5f;
+	private final double radius = 6f;
 	private final float lightz = -14f;
 	private final double TWOPI = Math.PI * 2;
 	
@@ -50,7 +50,7 @@ public class SqRtRenderer implements GLSurfaceView.Renderer {
 		angle += 0.002;
 		if(angle > TWOPI)
 			angle = 0;
-		utility.set((float)(radius*Math.cos(angle))-4, (float) (radius*Math.sin(angle))-4, lightz);
+		utility.set((float)(radius*Math.cos(angle))-3, (float) (radius*Math.sin(angle))-3, lightz);
 		sun.setPosition(utility);
 		Controls.execute();
 		Game.GLupdate();

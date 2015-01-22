@@ -5,13 +5,19 @@ import com.threed.jpct.Light;
 import com.threed.jpct.World;
 import com.threed.jpct.util.Overlay;
 
+import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.os.Build;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +33,9 @@ public class UI {
 	public static GameMode mode, oldmode;
 	public static Context context;
 	public static Game gamestate;
+	
+	public static AlertDialog windialog;
+	public static LinearLayout wintextll;
 
 	public static World world;
 	
@@ -78,12 +87,44 @@ public class UI {
 		//TODO: do something better on a win...
 		SquareRootActivity.activity.runOnUiThread(new Runnable(){
 			
+			@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 			@Override
 			public void run() {	
-				Toast.makeText(Controls.context, "You won!", Toast.LENGTH_LONG).show();
+				AlertDialog.Builder builder = new AlertDialog.Builder(context);
+				LayoutInflater inflater = (LayoutInflater)context.getSystemService
+					      (Context.LAYOUT_INFLATER_SERVICE);
+				wintextll = (LinearLayout) inflater.inflate(R.layout.windialog, null);
+				builder.setView(wintextll).setPositiveButton("New Game", new DialogInterface.OnClickListener() {
+			           public void onClick(DialogInterface dialog, int id) {
+			               SquareRootActivity.activity.reset(null);
+			           }
+			       });
+				windialog = builder.create();
+				TextView movestext = (TextView) wintextll.findViewById(R.id.wintext2);
+				movestext.setText("# of moves: "+Game.movecount);
+				wintextll.setAlpha(0);
+				windialog.show();
 			}
 			
 		});
+	}
+	
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	public static void winGameUpdate(){
+		if(wintextll != null){
+			SquareRootActivity.activity.runOnUiThread(new Runnable(){
+				
+				@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+				@Override
+				public void run() {	
+					float alpha = wintextll.getAlpha();
+					if(alpha < 1){
+						alpha += 0.1;
+						wintextll.setAlpha(alpha);
+					}
+				}
+			});
+		}
 	}
 	
 }

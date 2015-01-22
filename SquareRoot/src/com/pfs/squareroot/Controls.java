@@ -19,6 +19,7 @@ import android.view.ScaleGestureDetector;
 public class Controls {
 
 	private static final String TAG = "Controls";
+	private static final SimpleVector home = new SimpleVector(3.3f,3,-6.5f);
 	public static float xpos1, ypos1, xpos2, ypos2, xstart, ystart, xrelease, yrelease;
 	private static int screenwidth, screenheight, moveboundl, moveboundr, moveboundt, moveboundb;
 	private static int pointerid1, pointerid2;
@@ -321,8 +322,7 @@ public class Controls {
 		maxy = level.height+1;
 		maxx = level.width+1;
 		maxz = maxx+maxy;
-		camera.setPosition(3.3f,3,-6.5f);
-		campos = camera.getPosition();
+		moveToHome();
 		//camera.moveCamera(Camera.CAMERA_MOVEIN, width/2);
 		//cam.moveCamera(Camera.CAMERA_MOVERIGHT, 20);
 		//camera.moveCamera(Camera.CAMERA_MOVEUP, level.maxheight + 10);
@@ -333,7 +333,8 @@ public class Controls {
 	
 	
 	public static void moveToHome(){
-
+		camera.setPosition(home);
+		campos = camera.getPosition();
 	}
 	
 	public static void switchCameraMode(){

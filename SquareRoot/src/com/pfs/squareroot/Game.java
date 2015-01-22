@@ -15,6 +15,7 @@ import com.threed.jpct.World;
 
 public class Game {
 	private static final String TAG = "Game";
+	static GameMode currentmode;
 	static Level level;
 	static int currentlevelnum, movecount;
 	static World world;
@@ -26,6 +27,7 @@ public class Game {
 	static final SimpleVector normal = new SimpleVector(0,0,-1);
 	static RectF testrectx = new RectF(), testrecty = new RectF();
 	private static boolean gamewon;
+	private static SimpleVector rtwinpos, winslide = new SimpleVector(0.1f, 0, 0);
 
 	public static void setup(World world) {
 		Game.world = world;
@@ -33,11 +35,28 @@ public class Game {
 		movecount = 0;
 		level = new Level(currentlevelnum);
 		tileheld = false;
+		currentmode = GameMode.ACTIVE;
 	}
 	
 	public static void GLupdate() {
 		// TODO Auto-generated method stub
-		
+		switch(currentmode){
+		case ACTIVE:
+			break;
+		case PAUSED:
+			break;
+		case WON:
+			if(level.roottile.positionrect.left < rtwinpos.x){
+				level.roottile.slide(winslide);
+				winslide.x = 1;
+				Controls.camera.moveCamera(winslide, 0.13f);
+				winslide.x = 0.1f;
+				UI.winGameUpdate();
+			} 
+			break;
+		default:
+			break;
+		}
 	}
 	
 	public static void get3DFrom2D(float x, float y, SimpleVector tofill){
@@ -67,6 +86,8 @@ public class Game {
 	}
 
 	public static void handleTouch() {
+		if(currentmode != GameMode.ACTIVE)
+			return;
 		if(tileheld){
 			get3DFrom2D(Controls.xpos1, Controls.ypos1, newposition);
 			direction.set(newposition.calcSub(position));
@@ -92,15 +113,25 @@ public class Game {
 			currenttile.snap();
 			if(currenttile == level.roottile)
 				gamewon = level.checkWin();
-			if(gamewon)
-				UI.winGame();
+			if(gamewon){
+				win();
+				
+			}
 		}
+	}
+
+	public static void win() {
+		currentmode = GameMode.WON;
+		rtwinpos = new SimpleVector(level.roottile.positionrect.left+5, level.roottile.positionrect.left, 0);
+		UI.winGame();
 	}
 
 	public static void reset(){
 		level.reset();
 		movecount = 0;
 		UI.updateMoveCount();
+		currentmode = GameMode.ACTIVE;
+		Controls.moveToHome();
 	}
 	
 }

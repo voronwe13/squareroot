@@ -34,8 +34,8 @@ public class Level {
 		float depth = Tile.DEFAULTDEPTH + 0.1f;
 		boxrect = new RectF(insideleft,insidetop, insideright, insidebottom);
 		center = new SimpleVector(boxrect.centerX(), boxrect.centerY(), 0);
-		Object3D boxbase = Tile.createBox(boxrect.width()+borderwidth*2, boxrect.height()+borderwidth*2, depth, 0);
-		boxbase.setOrigin(new SimpleVector(insideleft - borderwidth, insidetop - borderwidth, depth));
+		Object3D boxbase = Tile.createBox(boxrect.width()+borderwidth*1.1f, boxrect.height()+borderwidth*2, 0.1f, 0);
+		boxbase.setOrigin(new SimpleVector(insideleft - borderwidth, insidetop - borderwidth, 0.1));
 		boxbase.setTexture("woodbox");
 		boxbase.setShader(Shaders.phong);
 		boxbase.setSpecularLighting(true);		
@@ -62,18 +62,34 @@ public class Level {
 		boxleft.setSpecularLighting(true);		
 		boxleft.build();
 		
-		Object3D boxright = Tile.createBox(borderwidth, boxrect.height(), depth, 0);
-		boxright.setOrigin(new SimpleVector(insideright, insidetop, 0));
-		boxright.setTexture("woodbox");
-		boxright.setShader(Shaders.phong);
-		boxright.setSpecularLighting(true);		
-		boxright.build();
+		Object3D boxrightupper = Tile.createBox(borderwidth, boxrect.height(), depth-Tile.DEFAULTDEPTH/2, 0);
+		boxrightupper.setOrigin(new SimpleVector(insideright, insidetop, -Tile.DEFAULTDEPTH/2));
+		boxrightupper.setTexture("woodbox");
+		boxrightupper.setShader(Shaders.phong);
+		boxrightupper.setSpecularLighting(true);		
+		boxrightupper.build();
+		
+		Object3D boxrightlowertop = Tile.createBox(borderwidth, boxrect.height()*0.5f - 1, Tile.DEFAULTDEPTH/2, 0);
+		boxrightlowertop.setOrigin(new SimpleVector(insideright, insidetop, 0));
+		boxrightlowertop.setTexture("woodbox");
+		boxrightlowertop.setShader(Shaders.phong);
+		boxrightlowertop.setSpecularLighting(true);		
+		boxrightlowertop.build();
+		
+		Object3D boxrightlowerbottom = Tile.createBox(borderwidth, boxrect.height()*0.5f - 1, Tile.DEFAULTDEPTH/2, 0);
+		boxrightlowerbottom.setOrigin(new SimpleVector(insideright, insidetop+3, 0));
+		boxrightlowerbottom.setTexture("woodbox");
+		boxrightlowerbottom.setShader(Shaders.phong);
+		boxrightlowerbottom.setSpecularLighting(true);		
+		boxrightlowerbottom.build();
 		
 		UI.world.addObject(boxbase);
 		UI.world.addObject(boxbottom);
 		UI.world.addObject(boxtop);
 		UI.world.addObject(boxleft);
-		UI.world.addObject(boxright);
+		UI.world.addObject(boxrightupper);
+		UI.world.addObject(boxrightlowertop);
+		UI.world.addObject(boxrightlowerbottom);
 		
 	}
 

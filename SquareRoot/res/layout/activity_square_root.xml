@@ -9,7 +9,15 @@
 		android:layout_width="wrap_content"
 		android:text="Reset"
 		android:onClick="reset" />
-
+	<!--  
+	<Button
+	    android:id="@+id/winbutton"
+	    android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_below="@id/resetbutton"
+		android:text="Win"
+		android:onClick="win" />
+	-->
 	<TextView
 	    android:id="@+id/textView1"
 	    android:layout_width="wrap_content"

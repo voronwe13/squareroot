@@ -15,7 +15,7 @@ import com.threed.jpct.TextureManager;
 
 public abstract class Tile {
 	private static int texturecount = 0;
-	public final static float DEFAULTDEPTH = 0.2f;
+	public final static float DEFAULTDEPTH = 0.3f;
 	private final static float offset = 0.0002f; //so tiles don't overlap
 	private final static float snapdistance = 0.2f; //to snap tiles into grid	
 	private static final String TAG = "Tile";

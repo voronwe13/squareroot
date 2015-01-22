@@ -1,5 +1,5 @@
 package com.pfs.squareroot;
 
-public class GameMode {
-
+public enum GameMode {
+	ACTIVE, PAUSED, WON 
 }
