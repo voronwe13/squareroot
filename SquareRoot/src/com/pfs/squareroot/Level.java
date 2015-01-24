@@ -147,11 +147,7 @@ public class Level {
 
 	public boolean checkWin() {
 		// TODO Auto-generated method stub
-		float epsilon = 0.0001f;
-		if((Math.abs(roottile.positionrect.left - winleft) < epsilon) &&
-				Math.abs(roottile.positionrect.top - wintop) < epsilon)
-			return true;
-		return false;
+		return roottile.checkAtPosition(winleft, wintop);
 	}
 
 }

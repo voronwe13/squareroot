@@ -16,8 +16,8 @@ import com.threed.jpct.TextureManager;
 public abstract class Tile {
 	private static int texturecount = 0;
 	public final static float DEFAULTDEPTH = 0.3f;
-	private final static float offset = 0.0002f; //so tiles don't overlap
-	private final static float snapdistance = 0.2f; //to snap tiles into grid	
+	private final static float offset = 0.008f; //so tiles don't overlap
+	private final static float snapdistance = 0.25f; //to snap tiles into grid	
 	private static final String TAG = "Tile";
 	public final float width, height, depth, originalx, originaly;
 	public float oldsnapx, oldsnapy;
@@ -143,8 +143,8 @@ public abstract class Tile {
 	public void snap() {
 		int snapx = Math.round(positionrect.left);
 		int snapy = Math.round(positionrect.top);
-		float xdist = snapx - positionrect.left;
-		float ydist = snapy - positionrect.top;
+		float xdist = snapx - positionrect.left - offset;
+		float ydist = snapy - positionrect.top - offset;
 		if( Math.abs(xdist) > snapdistance){
 			xdist = 0;
 		}		
@@ -169,5 +169,14 @@ public abstract class Tile {
 		moveTo(originalx, originaly);
 		oldsnapx = originalx;
 		oldsnapy = originaly;
+	}
+	
+	public boolean checkAtPosition(float x, float y){
+		float epsilon = 0.0001f;
+
+		if((Math.abs(positionrect.left - x + offset) < epsilon) &&
+				Math.abs(positionrect.top - y + offset) < epsilon)
+			return true;
+		return false;
 	}
 }
