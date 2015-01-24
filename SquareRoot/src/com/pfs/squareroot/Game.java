@@ -145,6 +145,8 @@ public class Game {
 		currentmode = GameMode.ACTIVE;
 		Controls.moveToHome();
 		gamewon = false;
+		currenttime = 0;
+		timerstarted = false;
 	}
 
 	public static void incMovecount() {

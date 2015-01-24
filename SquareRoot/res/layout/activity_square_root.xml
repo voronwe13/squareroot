@@ -41,7 +41,7 @@
 	    android:layout_alignParentRight="true"
 	    android:layout_below="@id/movecount"
 	    android:textColor="#00FF00"
-	    android:text="Time: 0" 
+	    android:text="Time: 0:00" 
 	    android:textSize="24sp"/>
 	
 </RelativeLayout>

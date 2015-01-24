@@ -122,7 +122,7 @@ public static void update(){
 				int seconds = (int) (Game.currenttime / 1000);
 				int minutes = seconds / 60;
 				seconds     = seconds % 60;
-				timertext.setText(String.format("%d:%02d", minutes, seconds));
+				timertext.setText(String.format("Time finished in: %d:%02d", minutes, seconds));
 				wintextll.setAlpha(0);
 				windialog.show();
 			}
