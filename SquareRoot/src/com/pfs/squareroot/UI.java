@@ -38,6 +38,7 @@ public class UI {
 	public static LinearLayout wintextll;
 
 	public static World world;
+	private static long oldseconds;
 	
 	public static void setup(Context context, World theworld, FrameBuffer fb, int w, int h){
 		UI.context = context;
@@ -45,9 +46,24 @@ public class UI {
 
 	}
 	
-	public static void update(){
-
+public static void update(){
+	long seconds = (Game.currenttime / 1000);
+	if(seconds != oldseconds){
+		//Log.d(TAG, "currenttime: "+Game.currenttime+", seconds: "+seconds);
+		SquareRootActivity.activity.runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				long seconds = (Game.currenttime / 1000);
+				long minutes = seconds / 60;
+				seconds     = seconds % 60;
+			
+				SquareRootActivity.activity.timertv.setText(String.format("Time: %d:%02d", minutes, seconds));
+			}
+		});
 	}
+	oldseconds = seconds;
+}
 	
 
 	public static void setMode(GameMode mode) {
@@ -75,8 +91,8 @@ public class UI {
 			@Override
 			public void run() {
 
-				SquareRootActivity.activity.tv.setText("Moves: "+Game.movecount);
-				Log.d(TAG, "trying to set text to "+SquareRootActivity.activity.tv.getText());
+				SquareRootActivity.activity.movetv.setText("Moves: "+Game.movecount);
+				Log.d(TAG, "trying to set text to "+SquareRootActivity.activity.movetv.getText());
 			}
 			
 		});
@@ -102,6 +118,11 @@ public class UI {
 				windialog = builder.create();
 				TextView movestext = (TextView) wintextll.findViewById(R.id.wintext2);
 				movestext.setText("# of moves: "+Game.movecount);
+				TextView timertext = (TextView) wintextll.findViewById(R.id.wintext3);
+				int seconds = (int) (Game.currenttime / 1000);
+				int minutes = seconds / 60;
+				seconds     = seconds % 60;
+				timertext.setText(String.format("%d:%02d", minutes, seconds));
 				wintextll.setAlpha(0);
 				windialog.show();
 			}

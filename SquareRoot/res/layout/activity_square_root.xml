@@ -9,23 +9,39 @@
 		android:layout_width="wrap_content"
 		android:text="Reset"
 		android:onClick="reset" />
-	<!--  
+	<Button
+	    android:id="@+id/pausebutton"
+	    android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_below="@id/resetbutton"
+		android:text="Pause"
+		android:onClick="pauseGame" />
 	<Button
 	    android:id="@+id/winbutton"
 	    android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
-		android:layout_below="@id/resetbutton"
+		android:layout_below="@id/pausebutton"
+		android:visibility="gone"
 		android:text="Win"
 		android:onClick="win" />
-	-->
 	<TextView
-	    android:id="@+id/textView1"
+	    android:id="@+id/movecount"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_alignBottom="@+id/resetbutton"
 	    android:layout_alignParentRight="true"
 	    android:layout_alignParentTop="true"
+	    android:textColor="#00FF00"
 	    android:text="Moves: 0" 
-	    android:textSize="32sp"/>
+	    android:textSize="24sp"/>
+		<TextView
+	    android:id="@+id/timertext"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentRight="true"
+	    android:layout_below="@id/movecount"
+	    android:textColor="#00FF00"
+	    android:text="Time: 0" 
+	    android:textSize="24sp"/>
 	
 </RelativeLayout>

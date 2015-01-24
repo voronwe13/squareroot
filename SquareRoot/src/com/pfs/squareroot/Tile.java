@@ -154,7 +154,7 @@ public abstract class Tile {
 		if(xdist == 0 && ydist == 0)
 			return;
 		if(snapx != oldsnapx || snapy != oldsnapy){
-			Game.movecount++;
+			Game.incMovecount();
 			Log.d(TAG, "increasing movecount to "+Game.movecount);
 			UI.updateMoveCount();
 		}

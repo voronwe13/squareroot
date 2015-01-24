@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -26,8 +27,10 @@ public class Game {
 			position = new SimpleVector();
 	static final SimpleVector normal = new SimpleVector(0,0,-1);
 	static RectF testrectx = new RectF(), testrecty = new RectF();
-	private static boolean gamewon;
+	private static boolean gamewon, timerstarted;
 	private static SimpleVector rtwinpos, winslide = new SimpleVector(0.1f, 0, 0);
+	private static long starttime, pausetime = 0;
+	static long currenttime;
 
 	public static void setup(World world) {
 		Game.world = world;
@@ -36,12 +39,20 @@ public class Game {
 		level = new Level(currentlevelnum);
 		tileheld = false;
 		currentmode = GameMode.ACTIVE;
+		gamewon = false;
+		timerstarted = false;
+		pausetime = 0;
+		currenttime = 0;
 	}
 	
 	public static void GLupdate() {
 		// TODO Auto-generated method stub
 		switch(currentmode){
 		case ACTIVE:
+			if(timerstarted){
+				currenttime = pausetime + SystemClock.uptimeMillis() - starttime;
+				
+			}
 			break;
 		case PAUSED:
 			break;
@@ -123,6 +134,7 @@ public class Game {
 	public static void win() {
 		currentmode = GameMode.WON;
 		rtwinpos = new SimpleVector(level.roottile.positionrect.left+5, level.roottile.positionrect.left, 0);
+		//currenttime = SystemClock.uptimeMillis() - starttime;
 		UI.winGame();
 	}
 
@@ -132,6 +144,31 @@ public class Game {
 		UI.updateMoveCount();
 		currentmode = GameMode.ACTIVE;
 		Controls.moveToHome();
+		gamewon = false;
+	}
+
+	public static void incMovecount() {
+		movecount++;
+		if(movecount==1)
+			startTimer();
+		
+	}
+
+	private static void startTimer() {
+		starttime = SystemClock.uptimeMillis();
+		pausetime = 0;
+		currenttime = 0;
+		Log.d(TAG, "starting timer, starttime: "+starttime+", pausetime: "+pausetime+", currenttime: "+currenttime);
+		timerstarted = true;
 	}
 	
+	public static void pauseGame(){
+		pausetime = currenttime;
+		currentmode = GameMode.PAUSED;
+	}
+	
+	public static void continueGame(){
+		starttime = SystemClock.uptimeMillis();
+		currentmode = GameMode.ACTIVE;
+	}
 }

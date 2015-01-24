@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class SquareRootActivity extends Activity {
@@ -15,7 +16,7 @@ public class SquareRootActivity extends Activity {
 	public static SquareRootActivity activity;
 	public World world;
 	public static boolean rendererinitialized = false;
-	public static TextView tv;
+	public static TextView movetv, timertv;
 	public static ViewGroup content;
 	
 	@Override
@@ -24,7 +25,8 @@ public class SquareRootActivity extends Activity {
 		setContentView(R.layout.activity_square_root);
 		ViewGroup content = (ViewGroup) findViewById(android.R.id.content);
 		srglsv = new SqRtGLSurfaceView(this);
-		tv = (TextView) findViewById(R.id.textView1);
+		movetv = (TextView) findViewById(R.id.movecount);
+		timertv = (TextView) findViewById(R.id.timertext);
 		content.addView(srglsv,0);
 		Controls.activitySetup(this);
 	}
@@ -48,7 +50,8 @@ public class SquareRootActivity extends Activity {
         super.onPause();
         if (srglsv != null) {
             srglsv.onPause();
-        }     
+        }
+        Game.pauseGame();
     }
     
     @Override
@@ -57,7 +60,8 @@ public class SquareRootActivity extends Activity {
         if (srglsv != null) {
             srglsv.onResume();
         }
-        tv.setText("Moves: "+Game.movecount);
+        movetv.setText("Moves: "+Game.movecount);
+        Game.continueGame();
     }
     
     public void reset(View v){
@@ -67,4 +71,16 @@ public class SquareRootActivity extends Activity {
     public void win(View v){
     	Game.win();
     }
+    
+    public void pauseGame(View v){
+    	Button pausebutton = (Button) v;
+    	if("Pause".equals(pausebutton.getText())){
+    		Game.pauseGame();
+    		pausebutton.setText("Resume");
+    	} else {
+    		Game.continueGame();
+    		pausebutton.setText("Pause");    		
+    	}
+    }
+    
 }
