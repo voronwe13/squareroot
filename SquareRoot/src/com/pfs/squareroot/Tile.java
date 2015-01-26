@@ -25,9 +25,25 @@ public abstract class Tile {
 	private float originz;
 	
 	public final Object3D tileobj;
-	private String texturename;
+	public TileType tiletype;
 	
 	private static SimpleVector utility = new SimpleVector();
+	
+	public enum TileType {
+		TILE1X1, TILE2X1, TILE2X2, TILE1X2;
+		
+		@Override
+		public String toString(){
+			switch(this){
+				case TILE1X1: return "1x1";
+				case TILE1X2: return "1x2";
+				case TILE2X1: return "2x1";
+				case TILE2X2: return "2x2";
+				default:
+					throw new IllegalArgumentException("this shouldn't happen");
+			}
+		}
+	}
 	
 	public Tile(float width, float height, float depth, float x, float y){
 		this.width = width;

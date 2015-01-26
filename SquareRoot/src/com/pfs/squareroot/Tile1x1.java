@@ -6,6 +6,7 @@ public class Tile1x1 extends Tile {
 		super(1,1,DEFAULTDEPTH, topleftx, toplefty);
 		moveTo(topleftx, toplefty);
 		tileobj.setTexture(Textures.wood1x1ti);
+		tiletype = TileType.TILE1X1;
 	}
 
 }

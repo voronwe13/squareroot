@@ -3,6 +3,11 @@ package com.pfs.squareroot;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import android.graphics.RectF;
 import android.util.Log;
 
@@ -18,10 +23,17 @@ public class Level {
 	RectF boxrect;
 	SimpleVector center;
 	private List<Tile> tiles;
+	private int levelnum;
 	
 	public Level(int levelnum) {
 		// TODO Auto-generated constructor stub
 		createTiles(levelnum);
+		createBox();
+	}
+	
+	public Level(int levelnum, Element tileroot) {
+		// TODO Auto-generated constructor stub
+		restoreTiles(tileroot);
 		createBox();
 	}
 
@@ -94,6 +106,7 @@ public class Level {
 	}
 
 	private void createTiles(int levelnum) {
+		this.levelnum = levelnum;
 		tiles = new ArrayList<Tile>();
 		if(levelnum == 1){
 			width = 5;
@@ -149,5 +162,70 @@ public class Level {
 		// TODO Auto-generated method stub
 		return roottile.checkAtPosition(winleft, wintop);
 	}
-
+	
+	public void saveTiles(Element tileroot){
+		tileroot.setAttribute("levelnum", Integer.toString(levelnum));
+		NodeList tilenodes = tileroot.getElementsByTagName("tile");
+	    int size = tilenodes.getLength();
+	    if(size < tiles.size())
+	    	throw new IllegalArgumentException("xml file doesn't have enough tile nodes.");
+	    for(int i=0; i<size; i++){
+	    	Node node = tilenodes.item(i);
+	    	Tile tile = tiles.get(i);
+	    	node.getAttributes().getNamedItem("type").setNodeValue(tile.tiletype.toString());
+	    	node.getAttributes().getNamedItem("xpos").setNodeValue(Float.toString(tile.positionrect.left));
+	    	node.getAttributes().getNamedItem("ypos").setNodeValue(Float.toString(tile.positionrect.top));
+	    }
+	}
+	
+	public void saveTiles(Element tileroot, Document tiledoc){
+		tileroot.setAttribute("levelnum", Integer.toString(levelnum));
+	    int size = tiles.size();
+	    for(int i=0; i<size; i++){
+	    	Element tileinstance = tiledoc.createElement("tile");
+	    	Tile tile = tiles.get(i);
+	    	tileinstance.setAttribute("type", tile.tiletype.toString());
+	    	tileinstance.setAttribute("xpos",Float.toString(tile.positionrect.left));
+	    	tileinstance.setAttribute("ypos",Float.toString(tile.positionrect.top));
+	    	tileroot.appendChild(tileinstance);
+	    }
+	}
+	
+	public void restoreTiles(Element tileroot){
+		levelnum = Integer.parseInt(tileroot.getAttribute("levelnum"));
+		if(levelnum == 1){
+			width = 5;
+			height = 4;
+			winleft = 4;
+			wintop = 2;
+		}
+		NodeList tilenodes = tileroot.getElementsByTagName("tile");
+	    int size = tilenodes.getLength();
+	    for(int i=0; i<size; i++){
+	    	Node node = tilenodes.item(i);
+	    	String type = node.getAttributes().getNamedItem("type").getNodeValue();
+//	    	boolean isroot = "true".equals(node.getAttributes().getNamedItem("root").getNodeValue());
+	    	float xpos = Float.parseFloat(node.getAttributes().getNamedItem("xpos").getNodeValue());
+	    	float ypos = Float.parseFloat(node.getAttributes().getNamedItem("ypos").getNodeValue());
+//	    	if(isroot){
+//	    		//TODO: change to get dimensions if root
+//	    		roottile = Tile.createRootTile(2, 2, xpos, ypos);
+//	    		tiles.add(roottile);	    		
+//	    	}else 
+	    	if("1x1".equals(type)){
+	    		tiles.add(Tile.create1x1Tile(xpos,ypos));
+	    	} else if ("1x2".equals(type)) {
+	    		tiles.add(Tile.create1x2Tile(xpos,ypos));
+	    	} else if ("2x2".equals(type)) {
+	    		//TODO: change to add ability to create a level that has 2x2 squares that aren't the root
+	    		roottile = Tile.createRootTile(2, 2, xpos, ypos);
+	    		tiles.add(roottile);
+	    	} else if ("2x1".equals(type)) {
+	    		tiles.add(Tile.create2x1Tile(xpos,ypos));
+	    	} else {
+	    		throw new IllegalArgumentException("incorrect type stored in file: "+type);
+	    	}
+	    }
+	}
+	
 }

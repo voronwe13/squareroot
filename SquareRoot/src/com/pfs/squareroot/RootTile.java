@@ -15,6 +15,8 @@ public class RootTile extends Tile {
 				|| x != roottile.originalx || y != roottile.originaly)
 			roottile = new RootTile(width,height, DEFAULTDEPTH/2, x, y);
 		roottile.moveTo(x, y);
+		//TODO: check for size to set correct type
+		roottile.tiletype = TileType.TILE2X2;
 		return roottile;
 	}
 
