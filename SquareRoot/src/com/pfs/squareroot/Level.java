@@ -16,6 +16,7 @@ import com.threed.jpct.SimpleVector;
 
 public class Level {
 	private static final String TAG = "Level";
+	private static final float boxoffset = 0.01f;
 	int width, height;
 	float winleft, wintop;
 	RootTile roottile;
@@ -23,7 +24,7 @@ public class Level {
 	RectF boxrect;
 	SimpleVector center;
 	private List<Tile> tiles;
-	private int levelnum;
+	int levelnum;
 	
 	public Level(int levelnum) {
 		// TODO Auto-generated constructor stub
@@ -31,17 +32,17 @@ public class Level {
 		createBox();
 	}
 	
-	public Level(int levelnum, Element tileroot) {
+	public Level(Element tileroot) {
 		// TODO Auto-generated constructor stub
 		restoreTiles(tileroot);
 		createBox();
 	}
 
 	private void createBox() {
-		float insideleft = 0.99f;
-		float insideright = 6.01f;
-		float insidetop = 0.99f;
-		float insidebottom = 5.01f;
+		float insideleft = 1-boxoffset;
+		float insideright = 1+width+boxoffset;
+		float insidetop = 1-boxoffset;
+		float insidebottom = 1+height-boxoffset;
 		float borderwidth = 0.15f;
 		float depth = Tile.DEFAULTDEPTH + 0.1f;
 		boxrect = new RectF(insideleft,insidetop, insideright, insidebottom);
@@ -193,38 +194,53 @@ public class Level {
 	
 	public void restoreTiles(Element tileroot){
 		levelnum = Integer.parseInt(tileroot.getAttribute("levelnum"));
-		if(levelnum == 1){
-			width = 5;
-			height = 4;
-			winleft = 4;
-			wintop = 2;
-		}
+		if(tiles == null)
+			createTiles(levelnum);
+//		if(levelnum == 1){
+//			width = 5;
+//			height = 4;
+//			winleft = 4;
+//			wintop = 2;
+//		}
 		NodeList tilenodes = tileroot.getElementsByTagName("tile");
 	    int size = tilenodes.getLength();
+	    if(size < tiles.size())
+	    	throw new IllegalArgumentException("xml file doesn't have enough tile nodes.");
+	    List<Tile> temptiles = new ArrayList<Tile>(tiles);
 	    for(int i=0; i<size; i++){
 	    	Node node = tilenodes.item(i);
 	    	String type = node.getAttributes().getNamedItem("type").getNodeValue();
 //	    	boolean isroot = "true".equals(node.getAttributes().getNamedItem("root").getNodeValue());
 	    	float xpos = Float.parseFloat(node.getAttributes().getNamedItem("xpos").getNodeValue());
 	    	float ypos = Float.parseFloat(node.getAttributes().getNamedItem("ypos").getNodeValue());
+	    	Tile tile;
+	    	int j=-1;
+	    	do{
+	    		j++;
+	    		tile = temptiles.get(j);
+	    	}while (!tile.tiletype.toString().equals(type));
+	    	if(tile == null)
+	    		throw new IllegalStateException("error finding tile");
+	    	tile.moveTo(xpos, ypos);
+	    	temptiles.remove(j);
 //	    	if(isroot){
 //	    		//TODO: change to get dimensions if root
 //	    		roottile = Tile.createRootTile(2, 2, xpos, ypos);
 //	    		tiles.add(roottile);	    		
 //	    	}else 
-	    	if("1x1".equals(type)){
-	    		tiles.add(Tile.create1x1Tile(xpos,ypos));
-	    	} else if ("1x2".equals(type)) {
-	    		tiles.add(Tile.create1x2Tile(xpos,ypos));
-	    	} else if ("2x2".equals(type)) {
-	    		//TODO: change to add ability to create a level that has 2x2 squares that aren't the root
-	    		roottile = Tile.createRootTile(2, 2, xpos, ypos);
-	    		tiles.add(roottile);
-	    	} else if ("2x1".equals(type)) {
-	    		tiles.add(Tile.create2x1Tile(xpos,ypos));
-	    	} else {
-	    		throw new IllegalArgumentException("incorrect type stored in file: "+type);
-	    	}
+//	    	if("1x1".equals(type)){
+//	    		tiles.add(Tile.create1x1Tile(xpos,ypos));
+//	    	} else if ("1x2".equals(type)) {
+//	    		tiles.add(Tile.create1x2Tile(xpos,ypos));
+//	    	} else if ("2x2".equals(type)) {
+//	    		//TODO: change to add ability to create a level that has 2x2 squares that aren't the root
+//	    		roottile = Tile.createRootTile(2, 2, xpos, ypos);
+//	    		tiles.add(roottile);
+//	    	} else if ("2x1".equals(type)) {
+//	    		tiles.add(Tile.create2x1Tile(xpos,ypos));
+//	    	} else {
+//	    		throw new IllegalArgumentException("incorrect type stored in file: "+type);
+//	    	}
 	    }
 	}
 	

@@ -45,21 +45,25 @@ public class Game {
 	private static boolean gamewon, timerstarted;
 	private static SimpleVector rtwinpos, winslide = new SimpleVector(0.1f, 0, 0);
 	private static long starttime, pausetime = 0;
-	static long currenttime;
-	private static long besttime = -1;
-	private static int bestmovecount = -1;
+	static long currenttime, besttime;
+	static int bestmovecount;
 
 	public static void setup(World world) {
 		Game.world = world;
-		currentlevelnum = 1;
-		movecount = 0;
-		level = new Level(currentlevelnum);
+		if(!restoreState()){
+			level = new Level(1);
+			currenttime = 0;
+			pausetime = 0;
+			movecount = 0;
+			besttime = -1;
+			bestmovecount = -1;
+		}
+		currentlevelnum = level.levelnum;
 		tileheld = false;
 		currentmode = GameMode.ACTIVE;
 		gamewon = false;
 		timerstarted = false;
-		pausetime = 0;
-		currenttime = 0;
+
 	}
 	
 	public static void GLupdate() {
@@ -163,20 +167,19 @@ public class Game {
 		Controls.moveToHome();
 		gamewon = false;
 		currenttime = 0;
+		pausetime = 0;
 		timerstarted = false;
 	}
 
 	public static void incMovecount() {
 		movecount++;
-		if(movecount==1)
+		if(!timerstarted)
 			startTimer();
 		
 	}
 
 	private static void startTimer() {
 		starttime = SystemClock.uptimeMillis();
-		pausetime = 0;
-		currenttime = 0;
 		Log.d(TAG, "starting timer, starttime: "+starttime+", pausetime: "+pausetime+", currenttime: "+currenttime);
 		timerstarted = true;
 	}
@@ -184,6 +187,7 @@ public class Game {
 	public static void pauseGame(){
 		pausetime = currenttime;
 		currentmode = GameMode.PAUSED;
+		saveState();
 	}
 	
 	public static void continueGame(){
@@ -193,6 +197,7 @@ public class Game {
 	
 	public static void saveState(){
 		try {
+			
 			File fileDir = SquareRootActivity.activity.getFilesDir(); 
 		    File datafile = new File(fileDir, "data.xml");
 		    DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -215,17 +220,21 @@ public class Game {
 		    } else {
 		    	//speakerfile.createNewFile();
 		    	//talksfile.createNewFile();
+		    	Log.d(TAG, "datafile does not exist, creating it.");
 		    	datadoc = docBuilder.newDocument();
 		    	Element dataroot = datadoc.createElement("data");
+		    	datadoc.appendChild(dataroot);
 		    	Element tileroot = datadoc.createElement("tiles");
 		    	dataroot.appendChild(tileroot);
 		    	level.saveTiles(tileroot, datadoc);
 			    Element time = datadoc.createElement("time");
 			    time.setAttribute("current", Long.toString(currenttime));
 			    time.setAttribute("best", Long.toString(besttime));
+			    dataroot.appendChild(time);
 			    Element moves = datadoc.createElement("moves");
 			    moves.setAttribute("current", Integer.toString(movecount));
 			    moves.setAttribute("best", Integer.toString(bestmovecount));
+			    dataroot.appendChild(moves);
 		    }
 //		    // initialize StreamResult with File object to save to file
 		    StreamResult result = new StreamResult(datafile);
@@ -248,18 +257,41 @@ public class Game {
 		    Document datadoc = docBuilder.parse(datafile);
 		    Element dataroot = datadoc.getDocumentElement();
 		    Element tileroot = (Element) dataroot.getElementsByTagName("tiles").item(0);
-		    level.restoreTiles(tileroot);
+		    level = new Level(tileroot);
 		    Element time = (Element) dataroot.getElementsByTagName("time").item(0);
 		    currenttime = Long.parseLong(time.getAttributeNode("current").getNodeValue());
+		    pausetime = currenttime;
 		    besttime = Long.parseLong(time.getAttributeNode("best").getNodeValue());
 		    Element moves = (Element) dataroot.getElementsByTagName("moves").item(0);
 		    movecount = Integer.parseInt(moves.getAttributeNode("current").getNodeValue());
 		    bestmovecount = Integer.parseInt(moves.getAttributeNode("best").getNodeValue());
-
+		    UI.updateMoveCount();
 		} catch (Exception e) {
 		    e.printStackTrace();
+			File fileDir = SquareRootActivity.activity.getFilesDir(); 
+		    File datafile = new File(fileDir, "data.xml");
+		    if(datafile.exists()){
+		    	datafile.delete();
+		    	Log.d(TAG, "data.xml was bad, deleting");
+		    }
 		    return false;
 		}
 		return true;
+	}
+
+	public static boolean checkBestTime() {
+		if(besttime < 0 || currenttime < besttime){
+			besttime = currenttime;
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean checkBestMoves() {
+		if(bestmovecount < 0 || movecount < bestmovecount){
+			bestmovecount = movecount;
+			return true;
+		}
+		return false;
 	}
 }

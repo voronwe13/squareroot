@@ -116,13 +116,26 @@ public static void update(){
 			           }
 			       });
 				windialog = builder.create();
+				boolean beatmoves = Game.checkBestMoves();
+				String movestring = "# of moves: "+Game.movecount+"     Best # of moves: "+Game.bestmovecount;
+				if(beatmoves)
+					movestring += "   New Record!";
 				TextView movestext = (TextView) wintextll.findViewById(R.id.wintext2);
-				movestext.setText("# of moves: "+Game.movecount);
+				movestext.setText(movestring);
 				TextView timertext = (TextView) wintextll.findViewById(R.id.wintext3);
-				int seconds = (int) (Game.currenttime / 1000);
-				int minutes = seconds / 60;
-				seconds     = seconds % 60;
-				timertext.setText(String.format("Time finished in: %d:%02d", minutes, seconds));
+				boolean beattime = Game.checkBestTime();
+				int seconds = (int) (Game.currenttime/1000);
+				int minutes = seconds/60;
+				seconds = seconds%60;
+				int bestsecs = (int) (Game.besttime/1000);
+				int bestmins = bestsecs/60;
+				bestsecs = seconds%60;
+				
+				String timestring = String.format("Time finished in: %d:%02d", minutes, seconds)
+									+ String.format("     Best time: %d:%02d", bestmins, bestsecs);
+				if(beattime)
+					timestring += "   New Record!";
+				timertext.setText(timestring);
 				wintextll.setAlpha(0);
 				windialog.show();
 			}
