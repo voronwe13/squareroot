@@ -42,11 +42,12 @@ public class Game {
 			position = new SimpleVector();
 	static final SimpleVector normal = new SimpleVector(0,0,-1);
 	static RectF testrectx = new RectF(), testrecty = new RectF();
-	private static boolean gamewon, timerstarted;
+	private static boolean gamewon, timerstarted, slidesoundstarted, clicksounded;
 	private static SimpleVector rtwinpos, winslide = new SimpleVector(0.1f, 0, 0);
 	private static long starttime, pausetime = 0;
 	static long currenttime, besttime;
 	static int bestmovecount;
+	static SoundManager sm;
 
 	public static void setup(World world) {
 		Game.world = world;
@@ -63,7 +64,8 @@ public class Game {
 		currentmode = GameMode.ACTIVE;
 		gamewon = false;
 		timerstarted = false;
-
+		SoundManager.setup(SquareRootActivity.activity);
+		slidesoundstarted = false;
 	}
 	
 	public static void GLupdate() {
@@ -123,6 +125,14 @@ public class Game {
 		if(tileheld){
 			get3DFrom2D(Controls.xpos1, Controls.ypos1, newposition);
 			direction.set(newposition.calcSub(position));
+			boolean nomove = (direction.x == 0 && direction.y == 0);
+			if(nomove){
+				if(slidesoundstarted){
+					SoundManager.getInstance().endSound("woodslide");
+					slidesoundstarted = false;
+				}
+				return;
+			}
 			testrectx.set(currenttile.positionrect);
 			testrectx.offset(direction.x, 0);
 			testrecty.set(currenttile.positionrect);
@@ -133,6 +143,20 @@ public class Game {
 				direction.x = 0;
 			if(!tilesy.isEmpty() || !level.boxrect.contains(testrecty))
 				direction.y = 0;
+			if(direction.x != 0 || direction.y != 0){
+				if(!slidesoundstarted){
+					SoundManager.getInstance().playSoundLoop("woodslide", -1);
+					slidesoundstarted = true;
+				}
+			} else {
+				SoundManager sm = SoundManager.getInstance();
+				sm.endSound("woodslide");
+				if(!clicksounded){
+					sm.playSound("woodclick");
+					clicksounded = true;
+				}
+				slidesoundstarted = false;
+			}
 			currenttile.slide(direction);
 			position.set(newposition);
 		}
@@ -142,7 +166,12 @@ public class Game {
 	public static void handleRelease() {
 		tileheld = false;
 		if(currenttile != null){
+			if(slidesoundstarted){
+				SoundManager.getInstance().endSound("woodslide");
+				slidesoundstarted = false;
+			}
 			currenttile.snap();
+			clicksounded = false;
 			if(currenttile == level.roottile)
 				gamewon = level.checkWin();
 			if(gamewon){

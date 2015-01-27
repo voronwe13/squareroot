@@ -179,6 +179,7 @@ public abstract class Tile {
 		positionrect.offset(xdist, ydist);
 		utility.set(positionrect.left, positionrect.top, originz);
 		tileobj.setOrigin(utility);
+		SoundManager.getInstance().playSound("woodclick");
 	}
 	
 	public void reset(){
