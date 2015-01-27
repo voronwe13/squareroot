@@ -83,6 +83,7 @@ public class SoundManager implements SoundPool.OnLoadCompleteListener {
 		addSound("woodclick", R.raw.woodclick2);
 		addSound("woodclick", R.raw.woodclick3);
 		addSound("woodslide", R.raw.woodslide1);
+		addSound("slideclick", R.raw.woodslideclick1);
 		
 //		menumusicplayer = MediaPlayer.create(context, menusong);
 //		menumusicplayer.setLooping(true);

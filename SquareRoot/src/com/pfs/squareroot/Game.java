@@ -48,6 +48,7 @@ public class Game {
 	static long currenttime, besttime;
 	static int bestmovecount;
 	static SoundManager sm;
+	static float olddist;
 
 	public static void setup(World world) {
 		Game.world = world;
@@ -66,6 +67,7 @@ public class Game {
 		timerstarted = false;
 		SoundManager.setup(SquareRootActivity.activity);
 		slidesoundstarted = false;
+		olddist = 0;
 	}
 	
 	public static void GLupdate() {
@@ -147,11 +149,12 @@ public class Game {
 				if(!slidesoundstarted){
 					SoundManager.getInstance().playSoundLoop("woodslide", -1);
 					slidesoundstarted = true;
+					clicksounded = false;
 				}
 			} else {
 				SoundManager sm = SoundManager.getInstance();
 				sm.endSound("woodslide");
-				if(!clicksounded){
+				if(!clicksounded && olddist > 0.05){
 					sm.playSound("woodclick");
 					clicksounded = true;
 				}
@@ -159,6 +162,9 @@ public class Game {
 			}
 			currenttile.slide(direction);
 			position.set(newposition);
+			float distx = Math.abs(direction.x);
+			float disty = Math.abs(direction.y);
+			olddist = distx > disty ? distx : disty;
 		}
 		
 	}

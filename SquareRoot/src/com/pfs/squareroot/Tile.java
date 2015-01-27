@@ -161,11 +161,15 @@ public abstract class Tile {
 		int snapy = Math.round(positionrect.top);
 		float xdist = snapx - positionrect.left - offset;
 		float ydist = snapy - positionrect.top - offset;
-		if( Math.abs(xdist) > snapdistance){
+		float absxdist = Math.abs(xdist);
+		float absydist = Math.abs(ydist);
+		if(absxdist > snapdistance){
 			xdist = 0;
+			absxdist = 0;
 		}		
-		if( Math.abs(ydist) > snapdistance){
+		if(absydist > snapdistance){
 			ydist = 0;
+			absydist = 0;
 		}
 		if(xdist == 0 && ydist == 0)
 			return;
@@ -179,7 +183,11 @@ public abstract class Tile {
 		positionrect.offset(xdist, ydist);
 		utility.set(positionrect.left, positionrect.top, originz);
 		tileobj.setOrigin(utility);
-		SoundManager.getInstance().playSound("woodclick");
+		float longdist = absxdist > absydist?absxdist:absydist;
+		if(longdist > snapdistance - 0.1)
+			SoundManager.getInstance().playSound("slideclick");
+		else if(longdist > 0.1)
+			SoundManager.getInstance().playSound("woodclick");
 	}
 	
 	public void reset(){

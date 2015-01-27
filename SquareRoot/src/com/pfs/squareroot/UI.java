@@ -129,7 +129,7 @@ public static void update(){
 				seconds = seconds%60;
 				int bestsecs = (int) (Game.besttime/1000);
 				int bestmins = bestsecs/60;
-				bestsecs = seconds%60;
+				bestsecs = bestsecs%60;
 				
 				String timestring = String.format("Time finished in: %d:%02d", minutes, seconds)
 									+ String.format("     Best time: %d:%02d", bestmins, bestsecs);
