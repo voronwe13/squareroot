@@ -246,6 +246,7 @@ int drawable wood1x1text256_3 0x7f020061
 int drawable wood1x2text256_2 0x7f020062
 int drawable wood2x1text256 0x7f020063
 int drawable wood2x2text256 0x7f020064
+int drawable woodbtn1 0x7f020065
 int id action_bar 0x7f06001c
 int id action_bar_activity_content 0x7f060015
 int id action_bar_container 0x7f06001b
@@ -262,6 +263,7 @@ int id always 0x7f06000b
 int id beginning 0x7f060011
 int id checkbox 0x7f06002d
 int id collapseActionView 0x7f06000d
+int id creditsbutton 0x7f060040
 int id default_activity_button 0x7f060028
 int id dialog 0x7f06000e
 int id disableHome 0x7f060008
@@ -278,7 +280,7 @@ int id image 0x7f060027
 int id listMode 0x7f060001
 int id list_item 0x7f060029
 int id middle 0x7f060012
-int id movecount 0x7f06003f
+int id movecount 0x7f060041
 int id never 0x7f060009
 int id none 0x7f060010
 int id normal 0x7f060000
@@ -287,6 +289,7 @@ int id progress_circular 0x7f060018
 int id progress_horizontal 0x7f060019
 int id radio 0x7f06002f
 int id resetbutton 0x7f06003c
+int id scoresbutton 0x7f06003f
 int id search_badge 0x7f060032
 int id search_bar 0x7f060031
 int id search_button 0x7f060033
@@ -304,15 +307,15 @@ int id showTitle 0x7f060006
 int id split_action_bar 0x7f06001e
 int id submit_area 0x7f060039
 int id tabMode 0x7f060002
-int id timertext 0x7f060040
+int id timertext 0x7f060042
 int id title 0x7f06002b
 int id top_action_bar 0x7f060020
 int id up 0x7f060021
 int id useLogo 0x7f060003
 int id winbutton 0x7f06003e
-int id wintext1 0x7f060041
-int id wintext2 0x7f060042
-int id wintext3 0x7f060043
+int id wintext1 0x7f060043
+int id wintext2 0x7f060044
+int id wintext3 0x7f060045
 int id withText 0x7f06000c
 int integer abc_max_action_buttons 0x7f0a0000
 int layout abc_action_bar_decor 0x7f030000

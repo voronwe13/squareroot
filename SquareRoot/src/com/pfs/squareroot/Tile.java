@@ -184,9 +184,9 @@ public abstract class Tile {
 		utility.set(positionrect.left, positionrect.top, originz);
 		tileobj.setOrigin(utility);
 		float longdist = absxdist > absydist?absxdist:absydist;
-		if(longdist > snapdistance - 0.1)
+		if(longdist > snapdistance - 0.08)
 			SoundManager.getInstance().playSound("slideclick");
-		else if(longdist > 0.1)
+		else if(longdist > 0.08)
 			SoundManager.getInstance().playSound("woodclick");
 	}
 	

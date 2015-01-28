@@ -329,4 +329,10 @@ public class Game {
 		}
 		return false;
 	}
+
+	public static void resetScores() {
+		bestmovecount = -1;
+		besttime = -1;
+		saveState();
+	}
 }

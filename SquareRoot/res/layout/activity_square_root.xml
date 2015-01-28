@@ -8,12 +8,16 @@
 	    android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
 		android:text="Reset"
+		android:layout_margin="10dp"
+		android:background="@drawable/woodbtn1"
 		android:onClick="reset" />
 	<Button
 	    android:id="@+id/pausebutton"
 	    android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
 		android:layout_below="@id/resetbutton"
+		android:background="@drawable/woodbtn1"
+		android:layout_margin="10dp"
 		android:text="Pause"
 		android:onClick="pauseGame" />
 	<Button
@@ -24,6 +28,25 @@
 		android:visibility="gone"
 		android:text="Win"
 		android:onClick="win" />
+	<Button
+	    android:id="@+id/scoresbutton"
+	    android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_below="@id/pausebutton"
+		android:background="@drawable/woodbtn1"
+		android:layout_margin="10dp"
+		android:text="High Scores"
+		android:onClick="showScores" />
+	<Button
+	    android:id="@+id/creditsbutton"
+	    android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_below="@id/scoresbutton"
+		android:background="@drawable/woodbtn1"
+		android:layout_margin="10dp"
+		android:text="Credits"
+		android:onClick="showCredits" />
+	
 	<TextView
 	    android:id="@+id/movecount"
 	    android:layout_width="wrap_content"
