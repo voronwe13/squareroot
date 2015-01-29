@@ -92,7 +92,7 @@ public static void update(){
 			public void run() {
 
 				SquareRootActivity.activity.movetv.setText("Moves: "+Game.movecount);
-				Log.d(TAG, "trying to set text to "+SquareRootActivity.activity.movetv.getText());
+				//Log.d(TAG, "trying to set text to "+SquareRootActivity.activity.movetv.getText());
 			}
 			
 		});

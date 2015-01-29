@@ -175,7 +175,7 @@ public abstract class Tile {
 			return;
 		if(snapx != oldsnapx || snapy != oldsnapy){
 			Game.incMovecount();
-			Log.d(TAG, "increasing movecount to "+Game.movecount);
+			//Log.d(TAG, "increasing movecount to "+Game.movecount);
 			UI.updateMoveCount();
 		}
 		oldsnapx = snapx;

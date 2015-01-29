@@ -158,7 +158,7 @@ public class Controls {
 			UI.handleTouching(xpos1, ypos1);
 		}
 		if(touchstart1){
-			Log.d(TAG, "in execute, first touch");
+			//Log.d(TAG, "in execute, first touch");
 			//UI.handleFirstTouch(xstart, ystart);
 			controllingcam = !Game.checkTouch();
 			touchstart1 = false;

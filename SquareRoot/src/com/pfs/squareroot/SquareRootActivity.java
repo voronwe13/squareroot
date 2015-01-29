@@ -1,5 +1,7 @@
 package com.pfs.squareroot;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.threed.jpct.World;
 
 import android.app.Activity;
@@ -78,14 +80,39 @@ public class SquareRootActivity extends Activity {
     }
     
     public void pauseGame(View v){
-    	Button pausebutton = (Button) v;
-    	if("Pause".equals(pausebutton.getText())){
-    		Game.pauseGame();
-    		pausebutton.setText("Resume");
-    	} else {
-    		Game.continueGame();
-    		pausebutton.setText("Pause");    		
-    	}
+    	//Button pausebutton = (Button) v;
+    	//if("Pause".equals(pausebutton.getText())){
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		LayoutInflater inflater = (LayoutInflater) getSystemService
+			      (Context.LAYOUT_INFLATER_SERVICE);
+		LinearLayout pausell = (LinearLayout) inflater.inflate(R.layout.pausedialog, null);
+		builder.setView(pausell).setPositiveButton("Resume", new DialogInterface.OnClickListener() {
+	           public void onClick(DialogInterface dialog, int id) {
+	        	   Game.continueGame();
+	           }
+	       });
+		builder.setCancelable(false);
+		Game.pauseGame();
+		//pausebutton.setText("Resume");
+		
+		AdView adview = (AdView) pausell.findViewById(R.id.adview);
+		 
+		// Request for Ads
+		AdRequest adrequest = new AdRequest.Builder()
+		 
+		// Add a test device to show Test Ads
+		.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+		.addTestDevice("99D6CF3CCEB4360655A3B068428D91A6")
+		.build();
+		 
+		// Load ads into Banner Ads
+		adview.loadAd(adrequest);
+		AlertDialog pausedialog = builder.create();
+		pausedialog.show();
+//    	} else {
+//    		Game.continueGame();
+//    		pausebutton.setText("Pause");    		
+//    	}
     }
     
     public void showScores(View v){
