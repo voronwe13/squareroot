@@ -178,4 +178,7 @@ public class SquareRootActivity extends Activity {
 		creditsdialog.show();
     }
     
+    public void showHowTo(View v){
+    	
+    }
 }

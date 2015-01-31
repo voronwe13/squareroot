@@ -3,36 +3,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="${packageName}.${activityClass}" >
+    <Button
+	    android:id="@+id/pausebutton"
+	    android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:background="@drawable/woodbtn1"
+		android:layout_margin="10dp"
+		android:text="Pause"
+		android:onClick="pauseGame" />
 	<Button
 	    android:id="@+id/resetbutton"
 	    android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
 		android:text="Reset"
 		android:layout_margin="10dp"
+		android:layout_below="@id/pausebutton"
 		android:background="@drawable/woodbtn1"
 		android:onClick="reset" />
 	<Button
-	    android:id="@+id/pausebutton"
+	    android:id="@+id/winbutton"
+	    android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:layout_below="@id/resetbutton"
+		android:visibility="gone"
+		android:text="Win"
+		android:onClick="win" />
+	<Button
+	    android:id="@+id/howtobutton"
 	    android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
 		android:layout_below="@id/resetbutton"
 		android:background="@drawable/woodbtn1"
 		android:layout_margin="10dp"
-		android:text="Pause"
-		android:onClick="pauseGame" />
-	<Button
-	    android:id="@+id/winbutton"
-	    android:layout_height="wrap_content"
-		android:layout_width="wrap_content"
-		android:layout_below="@id/pausebutton"
-		android:visibility="gone"
-		android:text="Win"
-		android:onClick="win" />
+		android:text="How to Play"
+		android:onClick="showHowTo" />
 	<Button
 	    android:id="@+id/scoresbutton"
 	    android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
-		android:layout_below="@id/pausebutton"
+		android:layout_below="@id/howtobutton"
 		android:background="@drawable/woodbtn1"
 		android:layout_margin="10dp"
 		android:text="High Scores"
@@ -57,7 +66,7 @@
 	    android:textColor="#00FF00"
 	    android:text="Moves: 0" 
 	    android:textSize="24sp"/>
-		<TextView
+	<TextView
 	    android:id="@+id/timertext"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
