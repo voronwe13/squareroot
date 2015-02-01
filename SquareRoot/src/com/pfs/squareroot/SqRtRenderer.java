@@ -21,9 +21,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.opengl.GLSurfaceView;
+import android.util.Log;
 
 public class SqRtRenderer implements GLSurfaceView.Renderer {
 
+	private static final String TAG = "SRRenderer";
 	public static FrameBuffer fb = null;
 	private World world = null;
 	private Light sun;
@@ -81,6 +83,7 @@ public class SqRtRenderer implements GLSurfaceView.Renderer {
 			Textures.setupTextures(fb);
 			Camera cam = world.getCamera();
 			Controls.setup(cam, context);
+			Log.d(TAG, "width: "+w+", height: "+h);
 			UI.setup(context, world, fb, w, h);
 			Game.setup(world);
 			Controls.setupLevel(Game.level, w, h);

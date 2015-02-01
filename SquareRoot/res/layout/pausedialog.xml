@@ -13,9 +13,9 @@
     
     <com.google.android.gms.ads.AdView
         android:id="@+id/adview"
-        android:layout_width="320dp"
-        android:layout_height="50dp"
-        ads:adSize="BANNER"
+        android:layout_width="300dp"
+        android:layout_height="250dp"
+        ads:adSize="MEDIUM_RECTANGLE"
         ads:adUnitId="ca-app-pub-8763215517164996/9182477933" />
 
 </LinearLayout>

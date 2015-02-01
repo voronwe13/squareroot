@@ -9,6 +9,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class SquareRootActivity extends Activity {
+	private static final String TAG = "SRActivity";
 	SqRtGLSurfaceView srglsv;
 	public static SquareRootActivity activity;
 	public World world;
@@ -96,6 +98,11 @@ public class SquareRootActivity extends Activity {
 		//pausebutton.setText("Resume");
 		
 		AdView adview = (AdView) pausell.findViewById(R.id.adview);
+		int dialogwidth = (3*UI.screenwidth)/4;
+		dialogwidth = dialogwidth>320?dialogwidth:320;
+		int dialogheight = (3*UI.screenheight)/4;
+		dialogheight = dialogheight>250?dialogheight:250;
+		adview.setLayoutParams(new LinearLayout.LayoutParams(dialogwidth, dialogheight));
 		 
 		// Request for Ads
 		AdRequest adrequest = new AdRequest.Builder()
@@ -109,6 +116,9 @@ public class SquareRootActivity extends Activity {
 		adview.loadAd(adrequest);
 		AlertDialog pausedialog = builder.create();
 		pausedialog.show();
+
+//		Log.d(TAG, "setting dialog width: "+dialogwidth+", height: "+dialogheight);
+//		pausedialog.getWindow().setLayout(dialogwidth, dialogheight);
 //    	} else {
 //    		Game.continueGame();
 //    		pausebutton.setText("Pause");    		

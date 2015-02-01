@@ -68,6 +68,8 @@ public class Game {
 		SoundManager.setup(SquareRootActivity.activity);
 		slidesoundstarted = false;
 		olddist = 0;
+		if(movecount != 0)
+			UI.pauseGame();
 	}
 	
 	public static void GLupdate() {
@@ -228,6 +230,8 @@ public class Game {
 	public static void continueGame(){
 		starttime = SystemClock.uptimeMillis();
 		currentmode = GameMode.ACTIVE;
+		if(movecount != 0)
+			timerstarted = true;
 	}
 	
 	public static void saveState(){

@@ -60,19 +60,19 @@
 	    android:id="@+id/movecount"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:layout_alignBottom="@+id/resetbutton"
-	    android:layout_alignParentRight="true"
 	    android:layout_alignParentTop="true"
-	    android:textColor="#00FF00"
+	    android:layout_toRightOf="@id/pausebutton"
+		android:layout_marginLeft="40dp"
+	    android:textColor="#000000"
 	    android:text="Moves: 0" 
 	    android:textSize="24sp"/>
 	<TextView
 	    android:id="@+id/timertext"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:layout_alignParentRight="true"
-	    android:layout_below="@id/movecount"
-	    android:textColor="#00FF00"
+	    android:layout_toRightOf="@id/movecount"
+		android:layout_marginLeft="20dp"
+	    android:textColor="#000000"
 	    android:text="Time: 0:00" 
 	    android:textSize="24sp"/>
 	

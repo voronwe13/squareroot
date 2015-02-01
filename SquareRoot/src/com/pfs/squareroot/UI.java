@@ -39,11 +39,13 @@ public class UI {
 
 	public static World world;
 	private static long oldseconds;
+	public static int screenwidth, screenheight;
 	
 	public static void setup(Context context, World theworld, FrameBuffer fb, int w, int h){
 		UI.context = context;
 		world = theworld;
-
+		screenwidth = w;
+		screenheight = h;
 	}
 	
 public static void update(){
@@ -159,6 +161,15 @@ public static void update(){
 				}
 			});
 		}
+	}
+	
+	public static void pauseGame(){
+		SquareRootActivity.activity.runOnUiThread(new Runnable(){
+			@Override
+			public void run() {
+				SquareRootActivity.activity.pauseGame(null);
+			}
+		});
 	}
 	
 }

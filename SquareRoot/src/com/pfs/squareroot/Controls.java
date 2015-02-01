@@ -19,7 +19,7 @@ import android.view.ScaleGestureDetector;
 public class Controls {
 
 	private static final String TAG = "Controls";
-	private static final SimpleVector home = new SimpleVector(3.3f,3,-6.5f);
+	private static final SimpleVector home = new SimpleVector(3.1f,2.8,-7f);
 	public static float xpos1, ypos1, xpos2, ypos2, xstart, ystart, xrelease, yrelease;
 	private static int screenwidth, screenheight, moveboundl, moveboundr, moveboundt, moveboundb;
 	private static int pointerid1, pointerid2;
