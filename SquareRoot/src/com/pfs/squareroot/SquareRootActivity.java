@@ -10,12 +10,17 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -182,13 +187,34 @@ public class SquareRootActivity extends Activity {
 		TextView maintext = (TextView) creditstextll.findViewById(R.id.wintext1);
 		maintext.setText("Credits");
 		TextView progcredtext = (TextView) creditstextll.findViewById(R.id.wintext2);
-		progcredtext.setText("Programming: Peter Schatz");
+		progcredtext.setText("Programming: Peter Schatz\nSound: Peter Schatz");
 		TextView soundcredtext = (TextView) creditstextll.findViewById(R.id.wintext3);
-		soundcredtext.setText("Sound: Peter Schatz");
+		soundcredtext.setText("Graphics powered by jPCT");
 		creditsdialog.show();
     }
     
     public void showHowTo(View v){
-    	
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		LayoutInflater inflater = (LayoutInflater) getSystemService
+			      (Context.LAYOUT_INFLATER_SERVICE);
+		ImageView howtoimg = (ImageView) inflater.inflate(R.layout.howto, null);
+		int dialogwidth = (2*UI.screenwidth)/3;
+		dialogwidth = dialogwidth>320?dialogwidth:320;
+		int dialogheight = (3*UI.screenheight)/4;
+		dialogheight = dialogheight>250?dialogheight:250;
+		Log.d(TAG, "setting dialog width: "+dialogwidth+", height: "+dialogheight);
+
+		//howtoimg.setScaleType(ScaleType.CENTER_INSIDE);
+		builder.setView(howtoimg).setPositiveButton("Got it!", new DialogInterface.OnClickListener() {
+	           public void onClick(DialogInterface dialog, int id) {
+	           }
+	       });
+		AlertDialog howtodialog = builder.create();
+		WindowManager.LayoutParams lp =  new WindowManager.LayoutParams();
+	    lp.copyFrom(howtodialog.getWindow().getAttributes());
+	    lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+	    lp.height = WindowManager.LayoutParams.MATCH_PARENT;
+		howtodialog.show();
+		howtodialog.getWindow().setAttributes(lp);
     }
 }
